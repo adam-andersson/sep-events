@@ -21,18 +21,44 @@ class Employee {
   canCreateEvent() {
     return (
       this.role === "Customer Service Officer" ||
-      this.role === "Senior Customer Service Officer "
+      this.role === "Senior Customer Service Officer"
     );
   }
 
   canEditEvent() {
     return (
-      this.role === "Senior Customer Service Officer " ||
+      this.role === "Senior Customer Service Officer" ||
       this.role === "Financial Manager" ||
       this.role === "Administration Manager" ||
       this.role === "Production Manager" ||
       this.role === "Service Manager"
     );
+  }
+
+  canRedirectToFinancialManager() {
+    return (
+      this.role === "Senior Customer Service Officer" ||
+      this.role === "Financial Manager" ||
+      this.role === "Administration Manager"
+    );
+  }
+
+  canRedirectToAdministrationManager() {
+    return (
+      this.role === "Financial Manager" ||
+      this.role === "Administration Manager"
+    );
+  }
+
+  canRejectEvent() {
+    return (
+      this.role === "Senior Customer Service Officer" ||
+      this.role === "Administration Manager"
+    );
+  }
+
+  canAcceptEvent() {
+    return this.role === "Administration Manager";
   }
 
   convertToJson() {

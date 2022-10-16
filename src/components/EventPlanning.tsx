@@ -8,6 +8,10 @@ import { EventStatus, isOfTypeEventStatus } from "../types/eventStatus";
 const EventPlanning: React.FC<{
   event: EventPlan | null;
   isEditing: boolean;
+  canRedirectToFinancialManager: boolean;
+  canRedirectToAdministrationManager: boolean;
+  canRejectEvent: boolean;
+  canAcceptEvent: boolean;
   handleUpdateEvent: (
     clientName: string,
     status: EventStatus,
@@ -30,6 +34,10 @@ const EventPlanning: React.FC<{
 }> = ({
   event,
   isEditing,
+  canRedirectToFinancialManager,
+  canRedirectToAdministrationManager,
+  canRejectEvent,
+  canAcceptEvent,
   handleUpdateEvent,
   handleNewEvent,
   handleOnBack,
@@ -117,8 +125,24 @@ const EventPlanning: React.FC<{
             value={status}
           >
             <option value={"Pending"}>Pending</option>
-            <option value={"Accepted"}>Accepted</option>
-            <option value={"Rejected"}>Rejected</option>
+            <option
+              value={"Under Financial Review"}
+              disabled={!canRedirectToFinancialManager}
+            >
+              Needs Financial Review
+            </option>
+            <option
+              value={"Under Administration Review"}
+              disabled={!canRedirectToAdministrationManager}
+            >
+              Needs Administration Review
+            </option>
+            <option value={"Accepted"} disabled={!canAcceptEvent}>
+              Accepted
+            </option>
+            <option value={"Rejected"} disabled={!canRejectEvent || !isEditing}>
+              Rejected
+            </option>
           </select>
         </div>
         <div

@@ -85,6 +85,7 @@ function App() {
     setCurrentUser(null);
   };
 
+  /** Read Employees from 'database' and create class instances from them */
   React.useEffect(() => {
     const allEmployees: Employee[] = [];
     jsonEmployees.forEach((employee) => {
@@ -104,6 +105,7 @@ function App() {
     setEmployees(allEmployees);
   }, []);
 
+  /** Read Events from 'database' and create class instances from them */
   React.useEffect(() => {
     const events: EventPlan[] = [];
     eventPlans.forEach((event) => {
@@ -140,7 +142,14 @@ function App() {
       {/** If user is logged in, they can see other stuff */}
       {currentUser && (
         <>
-          <button onClick={() => setCurrentUser(null)}>Logout</button>
+          <button
+            onClick={() => {
+              setActiveEvent(null);
+              setCurrentUser(null);
+            }}
+          >
+            Logout
+          </button>
 
           <div>
             <h3>
@@ -156,6 +165,10 @@ function App() {
               handleOnBack={handleOnBack}
               isEditing={!!activeEvent}
               event={activeEvent}
+              canRedirectToFinancialManager={currentUser.canRedirectToFinancialManager()}
+              canRedirectToAdministrationManager={currentUser.canRedirectToAdministrationManager()}
+              canRejectEvent={currentUser.canRejectEvent()}
+              canAcceptEvent={currentUser.canAcceptEvent()}
             />
           ) : (
             <>

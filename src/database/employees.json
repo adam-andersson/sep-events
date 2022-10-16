@@ -22,5 +22,11 @@
         "email": "pt@sep.com",
         "password": "1234",
         "role": "Production Team"
+    },
+    {
+        "name": "scs",
+        "email": "scs@sep.com",
+        "password": "1234",
+        "role": "Senior Customer Service Officer"
     }
 ]

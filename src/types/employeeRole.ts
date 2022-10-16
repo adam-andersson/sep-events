@@ -1,6 +1,6 @@
 export type EmployeeRole =
   | "Customer Service Officer"
-  | "Senior Customer Service Officer "
+  | "Senior Customer Service Officer"
   | "Human Resources"
   | "Marketing"
   | "Administration Manager"
@@ -13,7 +13,7 @@ export type EmployeeRole =
 export const isOfTypeEmployeeRole = (role: string): role is EmployeeRole => {
   return [
     "Customer Service Officer",
-    "Senior Customer Service Officer ",
+    "Senior Customer Service Officer",
     "Human Resources",
     "Marketing",
     "Administration Manager",
