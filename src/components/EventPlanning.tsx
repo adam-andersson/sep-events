@@ -72,34 +72,68 @@ const EventPlanning: React.FC<{
         onSubmit={handleSubmit}
         style={{ display: "flex", flexDirection: "column", gap: "5px" }}
       >
-        <div>
-          <label>Client Name:</label>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "3px",
+          }}
+        >
+          <label>Client Name</label>
           <input
             type="text"
             onChange={(cn) => setClientName(cn.target.value)}
             value={clientName}
           ></input>
         </div>
-        <div>
-          <label>Event Type:</label>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "5px",
+          }}
+        >
+          <label>Event Type</label>
           <input
             type="text"
             onChange={(et) => setEventType(et.target.value)}
             value={eventType}
           ></input>
         </div>
-        <label>Start Date:</label>
-        <DatePicker
-          selected={startDate}
-          onChange={(date: Date) => setStartDate(date)}
-        />
-        <label>End Date:</label>
-        <DatePicker
-          selected={endDate}
-          onChange={(date: Date) => setEndDate(date)}
-        />
-        <div>
-          <label>Expected number of attendees:</label>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "5px",
+          }}
+        >
+          <label>Start Date</label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+          />
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "5px",
+          }}
+        >
+          <label>End Date</label>
+          <DatePicker
+            selected={endDate}
+            onChange={(date: Date) => setEndDate(date)}
+          />
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "5px",
+          }}
+        >
+          <label>Expected attendees</label>
           <input
             type="number"
             onChange={(at) => {
@@ -109,8 +143,14 @@ const EventPlanning: React.FC<{
             value={attendees}
           ></input>
         </div>
-        <div>
-          <label>Expected budget:</label>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "5px",
+          }}
+        >
+          <label>Expected budget</label>
           <input
             type="number"
             onChange={(bu) => {
@@ -120,7 +160,7 @@ const EventPlanning: React.FC<{
             value={budget}
           ></input>
         </div>
-        <div>
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
           <input type="submit"></input>
         </div>
       </form>

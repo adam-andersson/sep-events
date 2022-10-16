@@ -27,7 +27,16 @@ function App() {
     budget: number
   ) => {
     if (!activeEvent) return;
-    console.log(activeEvent.budget, budget, activeEvent);
+    if (activeEvent.clientName !== clientName)
+      activeEvent.setClientName(clientName);
+    if (activeEvent.eventType !== eventType)
+      activeEvent.setEventType(eventType);
+    if (activeEvent.startDate !== startDate)
+      activeEvent.setStartDate(startDate);
+    if (activeEvent.endDate !== endDate) activeEvent.setEndDate(endDate);
+    if (activeEvent.attendees !== attendees)
+      activeEvent.setAttendees(attendees);
+    if (activeEvent.budget !== budget) activeEvent.setBudget(budget);
   };
 
   const handleNewEvent = (
@@ -93,6 +102,7 @@ function App() {
 
   return (
     <div className="App">
+      {/** If not logged in, the user can only see the login page */}
       {!currentUser && (
         <Login
           employees={employees}
@@ -100,19 +110,31 @@ function App() {
           handleBadUser={handleBadUser}
         />
       )}
+      {/** If user is logged in, they can see other stuff */}
       {currentUser && (
-        <button onClick={() => setCurrentUser(null)}>Logout</button>
+        <>
+          <button onClick={() => setCurrentUser(null)}>Logout</button>
+
+          <div>
+            <h3>
+              Welcome, {currentUser.name.toUpperCase()}! Your role is:{" "}
+              {currentUser.role}
+            </h3>
+          </div>
+
+          <EventPlanning
+            handleNewEvent={handleNewEvent}
+            handleUpdateEvent={handleUpdateEvent}
+            isEditing={!!activeEvent}
+            event={activeEvent}
+          />
+
+          <EventDisplay
+            events={allEvents}
+            updateActiveEvent={updateActiveEvent}
+          />
+        </>
       )}
-      {currentUser && <div>Welcome, {currentUser.name}</div>}
-      {
-        <EventPlanning
-          handleNewEvent={handleNewEvent}
-          handleUpdateEvent={handleUpdateEvent}
-          isEditing={!!activeEvent}
-          event={activeEvent}
-        />
-      }
-      <EventDisplay events={allEvents} updateActiveEvent={updateActiveEvent} />
     </div>
   );
 }

@@ -21,8 +21,8 @@ class EventPlan {
   ) {
     this.eventId = v4();
     this.status = "pending";
-    this.clientName = clientName;
-    this.eventType = eventType;
+    this.clientName = clientName ? clientName : "Unspecified";
+    this.eventType = eventType ? eventType : "Unspecified";
     this.startDate = startDate;
     this.endDate = endDate;
     this.attendees = attendees;

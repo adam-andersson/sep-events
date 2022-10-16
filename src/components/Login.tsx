@@ -34,7 +34,10 @@ const Login: React.FC<{
   };
 
   return (
-    <div style={{ margin: "30px" }}>
+    <div>
+      <div>
+        <h2>Please enter your login details.</h2>
+      </div>
       <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
         <label>Name:</label>
         <input type="text" value={name} onChange={handleSetName}></input>
