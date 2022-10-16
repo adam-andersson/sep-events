@@ -19,7 +19,7 @@ const EventDisplay: React.FC<{
           overflow: "scroll",
         }}
       >
-        {events.map((event: EventPlan) => {
+        {events.map((event: EventPlan, i) => {
           const {
             status,
             clientName,
@@ -40,6 +40,7 @@ const EventDisplay: React.FC<{
                 minWidth: "200px",
                 padding: "10px",
               }}
+              key={i}
             >
               <div>
                 <b>Client Name:</b> {clientName}
@@ -48,10 +49,10 @@ const EventDisplay: React.FC<{
                 <b>Status:</b> {status}
               </div>
               <div>
-                <b>Start Date:</b> {`${startDate}`}
+                <b>Start Date:</b> {startDate.toDateString()}
               </div>
               <div>
-                <b>End Date:</b> {`${endDate}`}
+                <b>End Date:</b> {endDate.toDateString()}
               </div>
               <div>
                 <b>Event Type:</b> {eventType}
