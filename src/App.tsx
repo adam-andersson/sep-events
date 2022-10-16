@@ -7,20 +7,32 @@ import EventPlanning from "./components/EventPlanning";
 import EventPlan from "./models/event";
 import EventDisplay from "./components/EventDisplay";
 import { EmployeeRole, isOfTypeEmployeeRole } from "./types/employeeRole";
+import { EventStatus, isOfTypeEventStatus } from "./types/eventStatus";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [currentUser, setCurrentUser] = useState<Employee | null>(null);
+
   const [allEvents, setAllEvents] = useState<EventPlan[]>([]);
   const [activeEvent, setActiveEvent] = useState<EventPlan | null>(null);
+  const [isEditingEvent, setIsEditingEvent] = useState<boolean>(false);
 
   const updateActiveEvent = (eventId: string) => {
     const selectedEvent = allEvents.find((event) => event.eventId === eventId);
-    if (selectedEvent) setActiveEvent(selectedEvent);
+    if (selectedEvent) {
+      setIsEditingEvent(true);
+      setActiveEvent(selectedEvent);
+    }
+  };
+
+  const handleOnBack = () => {
+    setActiveEvent(null);
+    setIsEditingEvent(false);
   };
 
   const handleUpdateEvent = (
     clientName: string,
+    status: EventStatus,
     eventType: string,
     startDate: Date,
     endDate: Date,
@@ -30,6 +42,7 @@ function App() {
     if (!activeEvent) return;
     if (activeEvent.clientName !== clientName)
       activeEvent.setClientName(clientName);
+    if (activeEvent.status !== status) activeEvent.setStatus(status);
     if (activeEvent.eventType !== eventType)
       activeEvent.setEventType(eventType);
     if (activeEvent.startDate !== startDate)
@@ -38,10 +51,13 @@ function App() {
     if (activeEvent.attendees !== attendees)
       activeEvent.setAttendees(attendees);
     if (activeEvent.budget !== budget) activeEvent.setBudget(budget);
+    setActiveEvent(null);
+    setIsEditingEvent(false);
   };
 
   const handleNewEvent = (
     clientName: string,
+    status: EventStatus,
     eventType: string,
     startDate: Date,
     endDate: Date,
@@ -50,6 +66,7 @@ function App() {
   ) => {
     const newEvent = new EventPlan(
       clientName,
+      status,
       startDate,
       endDate,
       eventType,
@@ -57,6 +74,7 @@ function App() {
       budget
     );
     setAllEvents([...allEvents, newEvent]);
+    setIsEditingEvent(false);
   };
 
   const handleGoodUser = (user: Employee) => {
@@ -89,11 +107,15 @@ function App() {
   React.useEffect(() => {
     const events: EventPlan[] = [];
     eventPlans.forEach((event) => {
+      const parsedEventStatus: EventStatus = isOfTypeEventStatus(event.status)
+        ? event.status
+        : "Pending";
       const parsedAttendees = parseInt(event.attendees);
       const parsedBudget = parseInt(event.budget);
       events.push(
         new EventPlan(
           event.clientName,
+          parsedEventStatus,
           new Date(event.startDate),
           new Date(event.endDate),
           event.eventType,
@@ -127,17 +149,28 @@ function App() {
             </h3>
           </div>
 
-          <EventPlanning
-            handleNewEvent={handleNewEvent}
-            handleUpdateEvent={handleUpdateEvent}
-            isEditing={!!activeEvent}
-            event={activeEvent}
-          />
-
-          <EventDisplay
-            events={allEvents}
-            updateActiveEvent={updateActiveEvent}
-          />
+          {isEditingEvent ? (
+            <EventPlanning
+              handleNewEvent={handleNewEvent}
+              handleUpdateEvent={handleUpdateEvent}
+              handleOnBack={handleOnBack}
+              isEditing={!!activeEvent}
+              event={activeEvent}
+            />
+          ) : (
+            <>
+              {currentUser.canCreateEvent() && (
+                <button onClick={() => setIsEditingEvent(true)}>
+                  Create new event
+                </button>
+              )}
+              <EventDisplay
+                events={allEvents}
+                updateActiveEvent={updateActiveEvent}
+                canEditEvent={currentUser.canEditEvent()}
+              />
+            </>
+          )}
         </>
       )}
     </div>

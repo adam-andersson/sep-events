@@ -1,7 +1,8 @@
 import { v4 } from "uuid";
+import { EventStatus } from "../types/eventStatus";
 class EventPlan {
   eventId: string;
-  status: "pending" | "accepted" | "rejected";
+  status: EventStatus;
   clientName: string;
   startDate: Date;
   endDate: Date;
@@ -13,6 +14,7 @@ class EventPlan {
 
   constructor(
     clientName: string,
+    status: EventStatus,
     startDate: Date,
     endDate: Date,
     eventType: string,
@@ -20,7 +22,7 @@ class EventPlan {
     budget: number
   ) {
     this.eventId = v4();
-    this.status = "pending";
+    this.status = status;
     this.clientName = clientName ? clientName : "Unspecified";
     this.eventType = eventType ? eventType : "Unspecified";
     this.startDate = startDate;
@@ -29,7 +31,7 @@ class EventPlan {
     this.budget = budget;
   }
 
-  setStatus(status: "pending" | "accepted" | "rejected") {
+  setStatus(status: EventStatus) {
     this.status = status;
   }
 

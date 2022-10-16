@@ -3,12 +3,14 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import EventPlan from "../models/event";
+import { EventStatus, isOfTypeEventStatus } from "../types/eventStatus";
 
 const EventPlanning: React.FC<{
   event: EventPlan | null;
   isEditing: boolean;
   handleUpdateEvent: (
     clientName: string,
+    status: EventStatus,
     eventType: string,
     startDate: Date,
     endDate: Date,
@@ -17,14 +19,23 @@ const EventPlanning: React.FC<{
   ) => void;
   handleNewEvent: (
     clientName: string,
+    status: EventStatus,
     eventType: string,
     startDate: Date,
     endDate: Date,
     attendees: number,
     budget: number
   ) => void;
-}> = ({ event, isEditing, handleUpdateEvent, handleNewEvent }) => {
+  handleOnBack: () => void;
+}> = ({
+  event,
+  isEditing,
+  handleUpdateEvent,
+  handleNewEvent,
+  handleOnBack,
+}) => {
   const [clientName, setClientName] = useState<string>("");
+  const [status, setStatus] = useState<EventStatus>("Pending");
   const [eventType, setEventType] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
@@ -34,6 +45,7 @@ const EventPlanning: React.FC<{
   useEffect(() => {
     if (isEditing && event) {
       setClientName(event.clientName);
+      setStatus(event.status);
       setEventType(event.eventType);
       setStartDate(event.startDate);
       setEndDate(event.endDate);
@@ -47,6 +59,7 @@ const EventPlanning: React.FC<{
     if (isEditing) {
       handleUpdateEvent(
         clientName,
+        status,
         eventType,
         startDate,
         endDate,
@@ -57,6 +70,7 @@ const EventPlanning: React.FC<{
       // we are creating a new event
       handleNewEvent(
         clientName,
+        status,
         eventType,
         startDate,
         endDate,
@@ -70,6 +84,7 @@ const EventPlanning: React.FC<{
     <div style={{ margin: "30px" }}>
       <form
         onSubmit={handleSubmit}
+        onReset={handleOnBack}
         style={{ display: "flex", flexDirection: "column", gap: "5px" }}
       >
         <div
@@ -85,6 +100,26 @@ const EventPlanning: React.FC<{
             onChange={(cn) => setClientName(cn.target.value)}
             value={clientName}
           ></input>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "3px",
+          }}
+        >
+          <label>Status</label>
+          <select
+            onChange={(statusChangeEvent) => {
+              if (isOfTypeEventStatus(statusChangeEvent.target.value))
+                setStatus(statusChangeEvent.target.value);
+            }}
+            value={status}
+          >
+            <option value={"Pending"}>Pending</option>
+            <option value={"Accepted"}>Accepted</option>
+            <option value={"Rejected"}>Rejected</option>
+          </select>
         </div>
         <div
           style={{
@@ -160,8 +195,16 @@ const EventPlanning: React.FC<{
             value={budget}
           ></input>
         </div>
-        <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            gap: "10px",
+            justifyContent: "center",
+          }}
+        >
           <input type="submit"></input>
+          <input type="reset" value="Back"></input>
         </div>
       </form>
     </div>

@@ -16,5 +16,11 @@
         "email": "cs@sep.com",
         "password": "1234",
         "role": "Customer Service Officer"
+    },
+    {
+        "name": "pt",
+        "email": "pt@sep.com",
+        "password": "1234",
+        "role": "Production Team"
     }
 ]

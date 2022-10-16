@@ -5,10 +5,11 @@ import EventPlan from "../models/event";
 
 const EventDisplay: React.FC<{
   events: EventPlan[];
+  canEditEvent: boolean;
   updateActiveEvent: (eventId: string) => void;
-}> = ({ events, updateActiveEvent }) => {
+}> = ({ events, updateActiveEvent, canEditEvent }) => {
   return (
-    <div>
+    <div style={{ margin: "0 30px 0 30px" }}>
       <h2>List of events:</h2>
       <div
         style={{
@@ -61,11 +62,13 @@ const EventDisplay: React.FC<{
               <div>
                 <b>Budget:</b> {budget}
               </div>
-              <div>
-                <button onClick={() => updateActiveEvent(event.eventId)}>
-                  Edit Event
-                </button>
-              </div>
+              {canEditEvent && (
+                <div>
+                  <button onClick={() => updateActiveEvent(event.eventId)}>
+                    Edit Event
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}
