@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import EventPlanning from "./components/EventPlanning";
 import EventPlan from "./models/event";
 import EventDisplay from "./components/EventDisplay";
+import { EmployeeRole, isOfTypeEmployeeRole } from "./types/employeeRole";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -69,12 +70,16 @@ function App() {
   React.useEffect(() => {
     const allEmployees: Employee[] = [];
     jsonEmployees.forEach((employee) => {
+      const employeeRole: EmployeeRole = isOfTypeEmployeeRole(employee.role)
+        ? employee.role
+        : "Unknown Role";
+
       allEmployees.push(
         new Employee(
           employee.name,
           employee.email,
           employee.password,
-          employee.role
+          employeeRole
         )
       );
     });

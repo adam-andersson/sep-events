@@ -3,18 +3,18 @@
         "name": "adam",
         "email": "adam@sep.com",
         "password": "1234",
-        "role": "FM"
+        "role": "Financial Manager"
     },
     {
         "name": "jiayi",
         "email": "jiayi@sep.com",
         "password": "1234",
-        "role": "PM"
+        "role": "Production Manager"
     },
     {
         "name": "cs",
         "email": "cs@sep.com",
         "password": "1234",
-        "role": "CS"
+        "role": "Customer Service Officer"
     }
 ]
