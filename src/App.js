@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import Employee from "./models/employee";
+import Login from "./components/Login";
+import jsonEmployees from "./database/employees.json";
+import React, { useState } from "react";
 
 function App() {
+  const [employees, setEmployees] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const handleGoodUser = (user) => {
+    setCurrentUser(user);
+  };
+
+  const handleBadUser = () => {
+    console.log("Bad Credentials");
+    setCurrentUser(null);
+  };
+
+  React.useEffect(() => {
+    const allEmployees = [];
+    jsonEmployees.forEach((employee) => {
+      allEmployees.push(
+        new Employee(
+          employee.name,
+          employee.email,
+          employee.password,
+          employee.role
+        )
+      );
+    });
+    setEmployees(allEmployees);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Login
+        employees={employees}
+        handleGoodUser={handleGoodUser}
+        handleBadUser={handleBadUser}
+      />
+      {currentUser && <div>Welcome, {currentUser.name}</div>}
     </div>
   );
 }

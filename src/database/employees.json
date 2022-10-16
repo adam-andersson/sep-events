@@ -1,0 +1,14 @@
+[
+    {
+        "name": "adam",
+        "email": "adam@sep.com",
+        "password": "1234",
+        "role": "FM"
+    },
+    {
+        "name": "jiayi",
+        "email": "jiayi@sep.com",
+        "password": "1234",
+        "role": "PM"
+    }
+]
