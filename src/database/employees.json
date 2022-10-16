@@ -10,5 +10,11 @@
         "email": "jiayi@sep.com",
         "password": "1234",
         "role": "PM"
+    },
+    {
+        "name": "cs",
+        "email": "cs@sep.com",
+        "password": "1234",
+        "role": "CS"
     }
 ]

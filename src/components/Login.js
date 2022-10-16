@@ -23,18 +23,20 @@ const Login = ({ employees, handleGoodUser, handleBadUser }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Name:</label>
-      <input type="text" value={name} onChange={handleSetName}></input>
-      <label>Password:</label>
-      <input
-        type="password"
-        value={password}
-        onChange={handleSetPassword}
-      ></input>
+    <div style={{ margin: "30px" }}>
+      <form onSubmit={handleSubmit}>
+        <label>Name:</label>
+        <input type="text" value={name} onChange={handleSetName}></input>
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={handleSetPassword}
+        ></input>
 
-      <input type="submit"></input>
-    </form>
+        <input type="submit"></input>
+      </form>
+    </div>
   );
 };
 
