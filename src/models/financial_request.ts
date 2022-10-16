@@ -1,13 +1,18 @@
 import { v4 } from "uuid";
 class FinancialRequest {
-  requestId;
-  requestingDept;
-  eventId;
-  requiredAmount;
-  reason;
-  status;
+  requestId: string;
+  requestingDept: string;
+  eventId: string;
+  requiredAmount: number;
+  reason: string;
+  status: "pending";
 
-  constructor(requestingDept, eventId, requiredAmount, reason) {
+  constructor(
+    requestingDept: string,
+    eventId: string,
+    requiredAmount: number,
+    reason: string
+  ) {
     this.requestId = v4();
     this.requestingDept = requestingDept;
     this.eventId = eventId;

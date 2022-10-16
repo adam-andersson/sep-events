@@ -1,10 +1,10 @@
 class Employee {
-  name;
-  email;
-  password;
-  role;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 
-  constructor(name, email, password, role) {
+  constructor(name: string, email: string, password: string, role: string) {
     this.name = name;
     this.email = email;
     this.password = password;
