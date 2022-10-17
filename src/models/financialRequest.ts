@@ -1,8 +1,9 @@
 import { v4 } from "uuid";
+import { Department, isOfTypeDepartment } from "../types/departments";
 import { RequestStatus } from "../types/requestStatus";
 class FinancialRequest {
   requestId: string = v4();
-  requestingDept: string = "";
+  requestingDept: Department | "" = "";
   eventId: string = "";
   requiredAmount: number = 1;
   reason: string = "";
@@ -15,14 +16,16 @@ class FinancialRequest {
     reason?: string,
     status?: RequestStatus
   ) {
-    requestingDept && this.setRequestingDept(requestingDept);
+    requestingDept &&
+      isOfTypeDepartment(requestingDept) &&
+      this.setRequestingDept(requestingDept);
     eventId && this.setEventId(eventId);
     requiredAmount && this.setRequiredAmount(requiredAmount);
     reason && this.setReason(reason);
     status && this.setStatus(status);
   }
 
-  setRequestingDept(requestingDept: string) {
+  setRequestingDept(requestingDept: Department) {
     this.requestingDept = requestingDept;
   }
 

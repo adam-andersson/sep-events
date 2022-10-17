@@ -9,6 +9,10 @@ import EventDisplay from "./components/EventDisplay";
 import { EmployeeRole, isOfTypeEmployeeRole } from "./types/employeeRole";
 import { EventStatus, isOfTypeEventStatus } from "./types/eventStatus";
 import { WebsitePage } from "./types/websitePages";
+import FinancialRequestEdit from "./components/FinancialRequestEdit";
+import FinancialRequest from "./models/financialRequest";
+import { Department } from "./types/departments";
+import { RequestStatus } from "./types/requestStatus";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -18,6 +22,12 @@ function App() {
 
   const [allEvents, setAllEvents] = useState<EventPlan[]>([]);
   const [activeEvent, setActiveEvent] = useState<EventPlan | null>(null);
+
+  const [allFinancialRequests, setAllFinancialRequests] = useState<
+    FinancialRequest[]
+  >([]);
+  const [activeFinancialRequest, setActiveFinancialRequest] =
+    useState<FinancialRequest | null>(null);
 
   const updateActiveEvent = (eventId: string) => {
     const selectedEvent = allEvents.find((event) => event.eventId === eventId);
@@ -80,6 +90,43 @@ function App() {
     );
     setAllEvents([...allEvents, newEvent]);
     setCurrentPage("EventDisplay");
+  };
+
+  const handleNewFinancialRequest = (
+    requestingDept: Department | "",
+    eventId: string,
+    requiredAmount: number,
+    reason: string,
+    status: RequestStatus
+  ) => {
+    const newFinancialRequest = new FinancialRequest(
+      requestingDept,
+      eventId,
+      requiredAmount,
+      reason,
+      status
+    );
+
+    setAllFinancialRequests([...allFinancialRequests, newFinancialRequest]);
+    setCurrentPage("FinancialRequestDisplay");
+  };
+
+  const handleUpdateFinancialRequest = (
+    requestingDept: Department | "",
+    eventId: string,
+    requiredAmount: number,
+    reason: string,
+    status: RequestStatus
+  ) => {
+    if (!activeFinancialRequest) return;
+    requestingDept && activeFinancialRequest.setRequestingDept(requestingDept);
+    eventId && activeFinancialRequest.setEventId(eventId);
+    requiredAmount && activeFinancialRequest.setRequiredAmount(requiredAmount);
+    reason && activeFinancialRequest.setReason(reason);
+    status && activeFinancialRequest.setStatus(status);
+
+    setActiveFinancialRequest(null);
+    setCurrentPage("FinancialRequestDisplay");
   };
 
   const handleGoodUser = (user: Employee) => {
@@ -186,6 +233,11 @@ function App() {
                   View events
                 </button>
               )}
+              {currentUser.canCreateFinancialRequest() && (
+                <button onClick={() => setCurrentPage("FinancialRequestEdit")}>
+                  Create financial request
+                </button>
+              )}
             </div>
           )}
           {currentPage === "EventDisplay" && (
@@ -210,6 +262,16 @@ function App() {
               canRedirectToAdministrationManager={currentUser.canRedirectToAdministrationManager()}
               canRejectEvent={currentUser.canRejectEvent()}
               canAcceptEvent={currentUser.canAcceptEvent()}
+            />
+          )}
+
+          {currentPage === "FinancialRequestEdit" && (
+            <FinancialRequestEdit
+              editedRequest={new FinancialRequest()}
+              handleNewFinancialRequest={handleNewFinancialRequest}
+              handleUpdateFinancialRequest={handleUpdateFinancialRequest}
+              handleOnBack={handleOnBack}
+              isEditing={false}
             />
           )}
         </>

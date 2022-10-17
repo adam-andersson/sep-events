@@ -76,6 +76,22 @@ class Employee {
     return this.role === "Administration Manager";
   }
 
+  canCreateFinancialRequest() {
+    return (
+      this.role === "Production Manager" || this.role === "Service Manager"
+    );
+  }
+
+  canEditFinancialRequest() {
+    return (
+      this.canCreateFinancialRequest() || this.role === "Financial Manager"
+    );
+  }
+
+  canViewFinancialRequest() {
+    return this.canEditFinancialRequest();
+  }
+
   convertToJson() {
     return JSON.stringify(this);
   }
