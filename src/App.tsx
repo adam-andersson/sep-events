@@ -151,6 +151,7 @@ function App() {
               setIsEditingEvent(false);
               setCurrentUser(null);
             }}
+            style={{ margin: "10px" }}
           >
             Logout
           </button>
