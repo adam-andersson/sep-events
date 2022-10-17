@@ -1,17 +1,5 @@
 [
     {
-        "name": "adam",
-        "email": "adam@sep.com",
-        "password": "1234",
-        "role": "Financial Manager"
-    },
-    {
-        "name": "jiayi",
-        "email": "jiayi@sep.com",
-        "password": "1234",
-        "role": "Production Manager"
-    },
-    {
         "name": "cs",
         "email": "cs@sep.com",
         "password": "1234",
@@ -34,6 +22,24 @@
         "email": "am@sep.com",
         "password": "1234",
         "role": "Administration Manager"
+    },
+    {
+        "name": "sm",
+        "email": "sm@sep.com",
+        "password": "1234",
+        "role": "Service Manager"
+    },
+    {
+        "name": "pm",
+        "email": "pm@sep.com",
+        "password": "1234",
+        "role": "Production Manager"
+    },
+    {
+        "name": "hr",
+        "email": "hr@sep.com",
+        "password": "1234",
+        "role": "Human Resources"
     },
     {
         "name": "pt",
