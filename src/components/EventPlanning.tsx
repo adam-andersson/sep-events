@@ -52,8 +52,8 @@ const EventPlanning: React.FC<{
   const [eventType, setEventType] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [attendees, setAttendees] = useState<number>(0);
-  const [budget, setBudget] = useState<number>(0);
+  const [attendees, setAttendees] = useState<number>(1);
+  const [budget, setBudget] = useState<number>(1);
   const [financialComment, setFinancialComment] = useState<string>("");
 
   useEffect(() => {
@@ -218,7 +218,8 @@ const EventPlanning: React.FC<{
               const newAttendees = parseInt(at.target.value, 10);
               setAttendees(newAttendees);
             }}
-            value={attendees}
+            value={`${attendees}`}
+            min="1"
             disabled={!canEditEventDetails}
           ></input>
         </div>
@@ -236,7 +237,8 @@ const EventPlanning: React.FC<{
               const newBudget = parseInt(bu.target.value, 10);
               setBudget(newBudget);
             }}
-            value={budget}
+            value={`${budget}`}
+            min="1"
             disabled={!canEditEventDetails}
           ></input>
         </div>

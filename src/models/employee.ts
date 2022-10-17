@@ -21,7 +21,8 @@ class Employee {
   canCreateEvent() {
     return (
       this.role === "Customer Service Officer" ||
-      this.role === "Senior Customer Service Officer"
+      this.role === "Senior Customer Service Officer" ||
+      this.role === "Administration Manager"
     );
   }
 
