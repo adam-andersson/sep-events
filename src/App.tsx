@@ -18,6 +18,8 @@ import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 import DepartmentTasks from "./components/DepartmentTasks";
 import { Priority } from "./types/priorities";
 import DepartmentTask from "./models/departmentTask";
+import DepartmentTasksDisplay from "./components/DepartmentTasksDisplay";
+import { Subteam } from "./types/subteam";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -154,12 +156,14 @@ function App() {
   };
 
   const handleNewDepartmentTask = (
+    subteam: Subteam,
     eventId: string,
     description: string,
     assignee: string,
     priority: Priority
   ) => {
     const newDepartmentTask = new DepartmentTask(
+      subteam,
       eventId,
       description,
       assignee,
@@ -309,8 +313,13 @@ function App() {
                 </button>
               )}
               {currentUser.canCreateDepartmentTasks() && (
-                <button onClick={() => setCurrentPage("DepartmentTasks")}>
+                <button onClick={() => setCurrentPage("DepartmentTaskEdit")}>
                   Create department tasks
+                </button>
+              )}
+              {currentUser.canViewDepartmentTasks() && (
+                <button onClick={() => setCurrentPage("DepartmentTaskDisplay")}>
+                  View department tasks
                 </button>
               )}
             </div>
@@ -361,7 +370,7 @@ function App() {
             />
           )}
 
-          {currentPage === "DepartmentTasks" && (
+          {currentPage === "DepartmentTaskEdit" && (
             <DepartmentTasks
               isInProductionTeam={currentUser.isInProductionTeam()}
               allEvents={allEvents}
@@ -379,6 +388,14 @@ function App() {
                 }
                 return false;
               })}
+            />
+          )}
+
+          {currentPage === "DepartmentTaskDisplay" && (
+            <DepartmentTasksDisplay
+              updateDepartmentTask={() => console.log("click")}
+              departmentTasks={allDepartmentTasks}
+              handleOnBack={handleOnBack}
             />
           )}
         </>

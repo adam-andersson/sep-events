@@ -19,7 +19,12 @@ class Employee {
   }
 
   canViewEvent() {
-    return this.canCreateEvent() || this.canEditEvent();
+    return (
+      this.canCreateEvent() ||
+      this.canEditEvent() ||
+      this.role === "Production Manager" ||
+      this.role === "Service Manager"
+    );
   }
 
   canCreateEvent() {
@@ -94,6 +99,10 @@ class Employee {
 
   canViewFinancialRequest() {
     return this.canEditFinancialRequest();
+  }
+
+  canViewDepartmentTasks() {
+    return this.isInProductionTeam() || this.isInServicesTeam();
   }
 
   canCreateDepartmentTasks() {

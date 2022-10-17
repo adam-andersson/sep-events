@@ -5,5 +5,5 @@ export type WebsitePage =
   | "EventEdit"
   | "FinancialRequestDisplay"
   | "FinancialRequestEdit"
-  | "DepartmentTasks"
-  | "AssignedTasks";
+  | "DepartmentTaskEdit"
+  | "DepartmentTaskDisplay";

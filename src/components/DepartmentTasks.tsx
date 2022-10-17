@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Employee from "../models/employee";
 import EventPlan from "../models/event";
 import { isOfTypePriority, Priority } from "../types/priorities";
+import { Subteam } from "../types/subteam";
 
 const DepartmentTasks: React.FC<{
   isInProductionTeam: boolean;
   allEvents: EventPlan[];
   potentialAssignees: Employee[];
   handleNewDepartmentTask: (
+    subteam: Subteam,
     eventId: string,
     description: string,
     assignee: string,
@@ -26,7 +28,9 @@ const DepartmentTasks: React.FC<{
   const [assignee, setAssignee] = useState<string>(potentialAssignees[0].name);
   const [priority, setPriority] = useState<Priority>("Medium");
 
-  const selectedTab = isInProductionTeam ? "Decorations" : "Food Related";
+  const selectedTab: Subteam = isInProductionTeam
+    ? "Decorations"
+    : "Food Related";
   const availableTabs = isInProductionTeam
     ? [
         "General",
@@ -40,7 +44,13 @@ const DepartmentTasks: React.FC<{
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleNewDepartmentTask(eventId, description, assignee, priority);
+    handleNewDepartmentTask(
+      selectedTab,
+      eventId,
+      description,
+      assignee,
+      priority
+    );
   };
 
   return (
