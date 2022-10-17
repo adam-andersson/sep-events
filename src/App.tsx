@@ -383,7 +383,7 @@ function App() {
                   View department tasks
                 </button>
               )}
-              {currentUser.canViewDepartmentTasks() && (
+              {currentUser.canOnlyAddPlanAndComment() && (
                 <button onClick={() => setCurrentPage("UserTasksDisplay")}>
                   View my tasks
                 </button>

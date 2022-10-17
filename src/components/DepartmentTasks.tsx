@@ -51,8 +51,6 @@ const DepartmentTasks: React.FC<{
   const [plan, setPlan] = useState<string>("");
   const [financialComment, setFinancialComment] = useState<string>("");
 
-  const x = !canOnlyAddPlanAndComment && !financialComment ? "none" : "initial";
-
   useEffect(() => {
     if (activeDepartmentTask) {
       setEventId(activeDepartmentTask.eventId);
@@ -230,7 +228,7 @@ const DepartmentTasks: React.FC<{
             gap: "5px",
           }}
         >
-          <label>Financial Comment</label>
+          <label>Budget Comment</label>
           <textarea
             onChange={(fcEvent) => {
               setFinancialComment(fcEvent.target.value);

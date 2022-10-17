@@ -26,7 +26,15 @@ const DepartmentTasksDisplay: React.FC<{
           }}
         >
           {departmentTasks.map((dt, i) => {
-            const { subteam, eventId, description, assignee, priority } = dt;
+            const {
+              subteam,
+              eventId,
+              description,
+              assignee,
+              priority,
+              plan,
+              financialComment,
+            } = dt;
             return (
               <div
                 style={{
@@ -55,6 +63,16 @@ const DepartmentTasksDisplay: React.FC<{
                 <div>
                   <b>Priority:</b> {priority}
                 </div>
+                {plan && (
+                  <div>
+                    <b>Plan:</b> {plan}
+                  </div>
+                )}
+                {financialComment && (
+                  <div>
+                    <b>Budget Comment:</b> {financialComment}
+                  </div>
+                )}
                 <div>
                   <button onClick={() => updateDepartmentTask(dt.taskId)}>
                     Edit Task
