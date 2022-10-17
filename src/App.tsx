@@ -239,6 +239,13 @@ function App() {
                   Create financial request
                 </button>
               )}
+              {currentUser.canViewFinancialRequest() && (
+                <button
+                  onClick={() => setCurrentPage("FinancialRequestDisplay")}
+                >
+                  View financial requests
+                </button>
+              )}
             </div>
           )}
           {currentPage === "EventDisplay" && (

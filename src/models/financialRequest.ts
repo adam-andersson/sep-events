@@ -3,10 +3,10 @@ import { Department, isOfTypeDepartment } from "../types/departments";
 import { RequestStatus } from "../types/requestStatus";
 class FinancialRequest {
   requestId: string = v4();
-  requestingDept: Department | "" = "";
-  eventId: string = "";
+  requestingDept: Department = "Administration";
+  eventId: string = "Unspecified";
   requiredAmount: number = 1;
-  reason: string = "";
+  reason: string = "Unspecified";
   status: RequestStatus = "Pending";
 
   constructor(

@@ -7,14 +7,14 @@ const FinancialRequestEdit: React.FC<{
   isEditing: boolean;
   editedRequest: FinancialRequest;
   handleUpdateFinancialRequest: (
-    requestingDept: Department | "",
+    requestingDept: Department,
     eventId: string,
     requiredAmount: number,
     reason: string,
     status: RequestStatus
   ) => void;
   handleNewFinancialRequest: (
-    requestingDept: Department | "",
+    requestingDept: Department,
     eventId: string,
     requiredAmount: number,
     reason: string,
@@ -28,7 +28,8 @@ const FinancialRequestEdit: React.FC<{
   handleNewFinancialRequest,
   handleOnBack,
 }) => {
-  const [requestingDept, setRequestingDept] = useState<Department | "">("");
+  const [requestingDept, setRequestingDept] =
+    useState<Department>("Administration");
   const [eventId, setEventId] = useState<string>("");
   const [requiredAmount, setRequiredAmount] = useState<number>(1);
   const [reason, setReason] = useState<string>("");
