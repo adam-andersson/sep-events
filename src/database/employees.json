@@ -42,9 +42,57 @@
         "role": "Human Resources"
     },
     {
-        "name": "pt",
-        "email": "pt@sep.com",
+        "name": "Magy",
+        "email": "magy@sep.com",
         "password": "1234",
-        "role": "Production Team"
+        "role": "Decorating Architect"
+    },
+    {
+        "name": "Angelina",
+        "email": "angelina@sep.com",
+        "password": "1234",
+        "role": "Decorating Specialist"
+    },
+    {
+        "name": "Don",
+        "email": "don@sep.com",
+        "password": "1234",
+        "role": "Assistant"
+    },
+    {
+        "name": "Tom",
+        "email": "tom@sep.com",
+        "password": "1234",
+        "role": "Assistant"
+    },
+    {
+        "name": "Helen",
+        "email": "helen@sep.com",
+        "password": "1234",
+        "role": "Top Chef"
+    },
+    {
+        "name": "Diana",
+        "email": "diana@sep.com",
+        "password": "1234",
+        "role": "Chef"
+    },
+    {
+        "name": "Chris",
+        "email": "chris@sep.com",
+        "password": "1234",
+        "role": "Chef"
+    },
+    {
+        "name": "Daniel",
+        "email": "daniel@sep.com",
+        "password": "1234",
+        "role": "Chef"
+    },
+    {
+        "name": "Marilyn",
+        "email": "marilyn@sep.com",
+        "password": "1234",
+        "role": "Chef"
     }
 ]

@@ -6,8 +6,12 @@ export type EmployeeRole =
   | "Administration Manager"
   | "Financial Manager"
   | "Production Manager"
-  | "Production Team"
+  | "Decorating Architect" // part of decorations team which is a Production subteam
+  | "Decorating Specialist" // part of decorations team which is a Production subteam
+  | "Assistant" // part of decorations team which is a Production subteam
   | "Service Manager"
+  | "Top Chef" // part of chef team which is a Services subteam
+  | "Chef" // part of chef team which is a Services subteam
   | "Vice President"
   | "Unknown Role";
 export const isOfTypeEmployeeRole = (role: string): role is EmployeeRole => {
@@ -19,8 +23,13 @@ export const isOfTypeEmployeeRole = (role: string): role is EmployeeRole => {
     "Administration Manager",
     "Financial Manager",
     "Production Manager",
-    "Production Team",
+    "Decorating Architect",
+    "Decorating Specialist",
+    "Assistant",
     "Service Manager",
+    "Top Chef",
+    "Chef",
     "Vice President",
+    "Unknown Role",
   ].includes(role);
 };
