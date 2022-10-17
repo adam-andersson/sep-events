@@ -314,6 +314,7 @@ function App() {
           {currentPage === "FinancialRequestEdit" && (
             <FinancialRequestEdit
               editedRequest={activeFinancialRequest}
+              allEvents={allEvents}
               handleNewFinancialRequest={handleNewFinancialRequest}
               handleUpdateFinancialRequest={handleUpdateFinancialRequest}
               handleOnBack={handleOnBack}

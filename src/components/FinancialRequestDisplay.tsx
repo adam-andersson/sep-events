@@ -44,7 +44,7 @@ const FinancialRequestDisplay: React.FC<{
                 <b>Requesting Department:</b> {requestingDept}
               </div>
               <div>
-                <b>Event Reference:</b> {eventId}
+                <b>Event Reference:</b> {`${eventId.slice(0, 8)}`}
               </div>
               <div>
                 <b>Requested Amount:</b> {requiredAmount}

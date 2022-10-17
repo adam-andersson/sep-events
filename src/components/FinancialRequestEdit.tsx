@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import EventPlan from "../models/event";
 import FinancialRequest from "../models/financialRequest";
 import { Department, isOfTypeDepartment } from "../types/departments";
 import { isOfTypeRequestStatus, RequestStatus } from "../types/requestStatus";
 
 const FinancialRequestEdit: React.FC<{
   isEditing: boolean;
+  allEvents: EventPlan[];
   editedRequest: FinancialRequest | null;
   canProcessRequest: boolean;
   handleUpdateFinancialRequest: (
@@ -24,6 +26,7 @@ const FinancialRequestEdit: React.FC<{
   handleOnBack: () => void;
 }> = ({
   isEditing,
+  allEvents,
   editedRequest,
   canProcessRequest,
   handleUpdateFinancialRequest,
@@ -137,12 +140,17 @@ const FinancialRequestEdit: React.FC<{
           }}
         >
           <label>Event Reference</label>
-          <input
-            type="text"
+          <select
             onChange={(et) => setEventId(et.target.value)}
             value={eventId}
             disabled={canProcessRequest}
-          ></input>
+          >
+            {allEvents.map((event) => (
+              <option value={event.eventId}>{`${
+                event.clientName
+              } / ${event.eventId.slice(0, 8)}`}</option>
+            ))}
+          </select>
         </div>
 
         <div
