@@ -4,8 +4,8 @@
         "status": "pending",
         "clientName": "ICA AB",
         "eventType": "Party",
-        "startDate": "2022-10-18T17:13:16.000Z",
-        "endDate": "2022-10-22T17:13:16.000Z",
+        "startDate": "2022-11-26T17:13:16.000Z",
+        "endDate": "2022-12-14T17:13:16.000Z",
         "attendees": "12",
         "budget": "14000"
     },
@@ -14,8 +14,8 @@
         "status": "pending",
         "clientName": "Coop",
         "eventType": "Coffee Club",
-        "startDate": "2022-10-20T17:13:16.000Z",
-        "endDate": "2022-11-03T18:13:16.000Z",
+        "startDate": "2022-11-28T17:13:16.000Z",
+        "endDate": "2022-11-30T18:13:16.000Z",
         "attendees": "4",
         "budget": "90"
     }

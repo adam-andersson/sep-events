@@ -115,8 +115,8 @@ function App() {
       const parsedEventStatus: EventStatus = isOfTypeEventStatus(event.status)
         ? event.status
         : "Pending";
-      const parsedAttendees = parseInt(event.attendees);
-      const parsedBudget = parseInt(event.budget);
+      const parsedAttendees = parseInt(event.attendees, 10);
+      const parsedBudget = parseInt(event.budget, 10);
       events.push(
         new EventPlan(
           event.clientName,

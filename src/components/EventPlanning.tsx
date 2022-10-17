@@ -69,6 +69,10 @@ const EventPlanning: React.FC<{
     }
   }, [event, isEditing]);
 
+  useEffect(() => {
+    if (endDate.getTime() < startDate.getTime()) setEndDate(startDate);
+  }, [endDate, startDate]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isEditing) {
@@ -185,9 +189,11 @@ const EventPlanning: React.FC<{
         >
           <label>Start Date</label>
           <DatePicker
+            dateFormat="yyyy/MM/dd"
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)}
             disabled={!canEditEventDetails}
+            minDate={new Date()}
           />
         </div>
         <div
@@ -199,9 +205,11 @@ const EventPlanning: React.FC<{
         >
           <label>End Date</label>
           <DatePicker
+            dateFormat="yyyy/MM/dd"
             selected={endDate}
             onChange={(date: Date) => setEndDate(date)}
             disabled={!canEditEventDetails}
+            minDate={startDate}
           />
         </div>
         <div
