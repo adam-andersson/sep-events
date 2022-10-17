@@ -5,7 +5,8 @@ import { isOfTypeRequestStatus, RequestStatus } from "../types/requestStatus";
 
 const FinancialRequestEdit: React.FC<{
   isEditing: boolean;
-  editedRequest: FinancialRequest;
+  editedRequest: FinancialRequest | null;
+  canProcessRequest: boolean;
   handleUpdateFinancialRequest: (
     requestingDept: Department,
     eventId: string,
@@ -24,6 +25,7 @@ const FinancialRequestEdit: React.FC<{
 }> = ({
   isEditing,
   editedRequest,
+  canProcessRequest,
   handleUpdateFinancialRequest,
   handleNewFinancialRequest,
   handleOnBack,
@@ -97,6 +99,7 @@ const FinancialRequestEdit: React.FC<{
               value="Administration"
               onChange={onDepartmentChange}
               checked={requestingDept === "Administration"}
+              disabled={canProcessRequest}
             />{" "}
             Administration
             <input
@@ -104,6 +107,7 @@ const FinancialRequestEdit: React.FC<{
               value="Services"
               onChange={onDepartmentChange}
               checked={requestingDept === "Services"}
+              disabled={canProcessRequest}
             />{" "}
             Services
             <input
@@ -111,6 +115,7 @@ const FinancialRequestEdit: React.FC<{
               value="Production"
               onChange={onDepartmentChange}
               checked={requestingDept === "Production"}
+              disabled={canProcessRequest}
             />{" "}
             Production
             <input
@@ -118,6 +123,7 @@ const FinancialRequestEdit: React.FC<{
               value="Financial"
               onChange={onDepartmentChange}
               checked={requestingDept === "Financial"}
+              disabled={canProcessRequest}
             />{" "}
             Financial
           </div>
@@ -135,6 +141,7 @@ const FinancialRequestEdit: React.FC<{
             type="text"
             onChange={(et) => setEventId(et.target.value)}
             value={eventId}
+            disabled={canProcessRequest}
           ></input>
         </div>
 
@@ -154,6 +161,7 @@ const FinancialRequestEdit: React.FC<{
             }}
             value={`${requiredAmount}`}
             min="1"
+            disabled={canProcessRequest}
           ></input>
         </div>
 
@@ -170,6 +178,7 @@ const FinancialRequestEdit: React.FC<{
               setReason(fc.target.value);
             }}
             value={reason}
+            disabled={canProcessRequest}
           ></textarea>
         </div>
 
@@ -187,6 +196,7 @@ const FinancialRequestEdit: React.FC<{
                 setStatus(statusChangeEvent.target.value);
             }}
             value={status}
+            disabled={!canProcessRequest}
           >
             <option value={"Pending"}>Pending</option>
             <option value={"Processed"}>Processed</option>

@@ -88,6 +88,10 @@ class Employee {
     );
   }
 
+  canProcessFinancialRequest() {
+    return this.role === "Financial Manager";
+  }
+
   canViewFinancialRequest() {
     return this.canEditFinancialRequest();
   }

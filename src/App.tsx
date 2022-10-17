@@ -39,8 +39,20 @@ function App() {
     }
   };
 
+  const updateActiveFinancialRequest = (requestId: string) => {
+    const selectedFinancialRequest = allFinancialRequests.find(
+      (fr) => fr.requestId === requestId
+    );
+
+    if (selectedFinancialRequest) {
+      setCurrentPage("FinancialRequestEdit");
+      setActiveFinancialRequest(selectedFinancialRequest);
+    }
+  };
+
   const handleOnBack = () => {
     setActiveEvent(null);
+    setActiveFinancialRequest(null);
     setCurrentPage("Homepage");
   };
 
@@ -112,6 +124,7 @@ function App() {
     console.log(newFinancialRequest.convertToJson());
 
     setAllFinancialRequests([...allFinancialRequests, newFinancialRequest]);
+    setActiveFinancialRequest(null);
     setCurrentPage("FinancialRequestDisplay");
   };
 
@@ -300,20 +313,21 @@ function App() {
 
           {currentPage === "FinancialRequestEdit" && (
             <FinancialRequestEdit
-              editedRequest={new FinancialRequest()}
+              editedRequest={activeFinancialRequest}
               handleNewFinancialRequest={handleNewFinancialRequest}
               handleUpdateFinancialRequest={handleUpdateFinancialRequest}
               handleOnBack={handleOnBack}
-              isEditing={false}
+              isEditing={!!activeFinancialRequest}
+              canProcessRequest={currentUser.canProcessFinancialRequest()}
             />
           )}
 
           {currentPage === "FinancialRequestDisplay" && (
             <FinancialRequestDisplay
-              canEditRequest={false}
+              canEditRequest={currentUser.canEditFinancialRequest()}
               handleOnBack={handleOnBack}
               financialRequests={allFinancialRequests}
-              updateFinancialRequest={(b) => console.log(b)}
+              updateFinancialRequest={updateActiveFinancialRequest}
             />
           )}
         </>
