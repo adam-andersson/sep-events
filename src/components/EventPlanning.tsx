@@ -101,7 +101,8 @@ const EventPlanning: React.FC<{
   };
 
   return (
-    <div style={{ margin: "30px" }}>
+    <div style={{ margin: "30px", border: "dashed", padding: "20px" }}>
+      <h2 style={{ marginTop: "0" }}>Request for Event Planning</h2>
       <form
         onSubmit={handleSubmit}
         onReset={handleOnBack}
