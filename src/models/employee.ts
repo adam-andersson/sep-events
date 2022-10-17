@@ -102,16 +102,21 @@ class Employee {
     );
   }
 
-  isInProductionSubTeam() {
+  isInProductionTeam() {
     return (
+      this.role === "Production Manager" ||
       this.role === "Decorating Architect" ||
       this.role === "Decorating Specialist" ||
       this.role === "Assistant"
     );
   }
 
-  isInServicesSubTeam() {
-    return this.role === "Top Chef" || this.role === "Chef";
+  isInServicesTeam() {
+    return (
+      this.role === "Service Manager" ||
+      this.role === "Top Chef" ||
+      this.role === "Chef"
+    );
   }
 
   convertToJson() {

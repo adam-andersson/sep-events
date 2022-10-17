@@ -145,8 +145,8 @@ const FinancialRequestEdit: React.FC<{
             value={eventId}
             disabled={canProcessRequest}
           >
-            {allEvents.map((event) => (
-              <option value={event.eventId}>{`${
+            {allEvents.map((event, i) => (
+              <option value={event.eventId} key={i}>{`${
                 event.clientName
               } / ${event.eventId.slice(0, 8)}`}</option>
             ))}

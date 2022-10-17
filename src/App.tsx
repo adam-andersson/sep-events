@@ -338,7 +338,25 @@ function App() {
             />
           )}
 
-          {currentPage === "DepartmentTasks" && <DepartmentTasks />}
+          {currentPage === "DepartmentTasks" && (
+            <DepartmentTasks
+              isInProductionTeam={currentUser.isInProductionTeam()}
+              allEvents={allEvents}
+              handleOnBack={handleOnBack}
+              potentialAssignees={employees.filter((employee) => {
+                if (currentUser.role === "Production Manager") {
+                  return employee.role !== currentUser.role
+                    ? employee.isInProductionTeam()
+                    : false;
+                } else if (currentUser.role === "Service Manager") {
+                  return employee.role !== currentUser.role
+                    ? employee.isInServicesTeam()
+                    : false;
+                }
+                return false;
+              })}
+            />
+          )}
         </>
       )}
     </div>
