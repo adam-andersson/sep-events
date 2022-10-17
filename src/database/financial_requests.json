@@ -1,0 +1,10 @@
+[
+    {
+        "requestId": "17c81cb3-9976-4a0e-8bc3-84fef28d4b92",
+        "requestingDept": "Production",
+        "eventId": "e12488",
+        "requiredAmount": 5000,
+        "reason": "Needed for Decorations\nBetter quality of the requested lights by the client can be ordered online.",
+        "status": "Pending"
+    }
+]

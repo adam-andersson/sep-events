@@ -2,6 +2,7 @@ import Employee from "./models/employee";
 import Login from "./components/Login";
 import jsonEmployees from "./database/employees.json";
 import eventPlans from "./database/events.json";
+import jsonFinancialRequests from "./database/financial_requests.json";
 import React, { useState } from "react";
 import EventPlanning from "./components/EventPlanning";
 import EventPlan from "./models/event";
@@ -12,7 +13,7 @@ import { WebsitePage } from "./types/websitePages";
 import FinancialRequestEdit from "./components/FinancialRequestEdit";
 import FinancialRequest from "./models/financialRequest";
 import { Department } from "./types/departments";
-import { RequestStatus } from "./types/requestStatus";
+import { isOfTypeRequestStatus, RequestStatus } from "./types/requestStatus";
 import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 
 function App() {
@@ -108,6 +109,8 @@ function App() {
       status
     );
 
+    console.log(newFinancialRequest.convertToJson());
+
     setAllFinancialRequests([...allFinancialRequests, newFinancialRequest]);
     setCurrentPage("FinancialRequestDisplay");
   };
@@ -181,6 +184,28 @@ function App() {
       );
     });
     setAllEvents(events);
+  }, []);
+
+  /** Read Financial Requests from 'database' and create class instances from them */
+  React.useEffect(() => {
+    const finReqs: FinancialRequest[] = [];
+    jsonFinancialRequests.forEach((fr) => {
+      const parsedRequestStatus: RequestStatus = isOfTypeRequestStatus(
+        fr.status
+      )
+        ? fr.status
+        : "Pending";
+      finReqs.push(
+        new FinancialRequest(
+          fr.requestingDept,
+          fr.eventId,
+          fr.requiredAmount,
+          fr.reason,
+          parsedRequestStatus
+        )
+      );
+    });
+    setAllFinancialRequests(finReqs);
   }, []);
 
   return (
