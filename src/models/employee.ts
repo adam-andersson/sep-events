@@ -18,6 +18,10 @@ class Employee {
     this.role = role;
   }
 
+  canViewEvent() {
+    return this.canCreateEvent() || this.canEditEvent();
+  }
+
   canCreateEvent() {
     return (
       this.role === "Customer Service Officer" ||

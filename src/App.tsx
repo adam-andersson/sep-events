@@ -8,26 +8,28 @@ import EventPlan from "./models/event";
 import EventDisplay from "./components/EventDisplay";
 import { EmployeeRole, isOfTypeEmployeeRole } from "./types/employeeRole";
 import { EventStatus, isOfTypeEventStatus } from "./types/eventStatus";
+import { WebsitePage } from "./types/websitePages";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [currentUser, setCurrentUser] = useState<Employee | null>(null);
 
+  const [currentPage, setCurrentPage] = useState<WebsitePage>("Login");
+
   const [allEvents, setAllEvents] = useState<EventPlan[]>([]);
   const [activeEvent, setActiveEvent] = useState<EventPlan | null>(null);
-  const [isEditingEvent, setIsEditingEvent] = useState<boolean>(false);
 
   const updateActiveEvent = (eventId: string) => {
     const selectedEvent = allEvents.find((event) => event.eventId === eventId);
     if (selectedEvent) {
-      setIsEditingEvent(true);
+      setCurrentPage("EventEdit");
       setActiveEvent(selectedEvent);
     }
   };
 
   const handleOnBack = () => {
     setActiveEvent(null);
-    setIsEditingEvent(false);
+    setCurrentPage("Homepage");
   };
 
   const handleUpdateEvent = (
@@ -55,7 +57,7 @@ function App() {
     if (activeEvent.comments !== financialComment)
       activeEvent.setComments(financialComment);
     setActiveEvent(null);
-    setIsEditingEvent(false);
+    setCurrentPage("EventDisplay");
   };
 
   const handleNewEvent = (
@@ -77,11 +79,12 @@ function App() {
       budget
     );
     setAllEvents([...allEvents, newEvent]);
-    setIsEditingEvent(false);
+    setCurrentPage("EventDisplay");
   };
 
   const handleGoodUser = (user: Employee) => {
     setCurrentUser(user);
+    setCurrentPage("Homepage");
   };
 
   const handleBadUser = () => {
@@ -145,11 +148,11 @@ function App() {
       {/** If user is logged in, they can see other stuff */}
       {currentUser && (
         <>
-          <button
+          <button /** Logout button */
             onClick={() => {
               setActiveEvent(null);
-              setIsEditingEvent(false);
               setCurrentUser(null);
+              setCurrentPage("Login");
             }}
             style={{ margin: "10px" }}
           >
@@ -162,8 +165,39 @@ function App() {
               {currentUser.role}
             </h3>
           </div>
+          {currentPage === "Homepage" && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                border: "dashed",
+                padding: "20px",
+              }}
+            >
+              <h2 style={{ marginTop: "0" }}>Your dashboard</h2>
+              {currentUser.canCreateEvent() && (
+                <button onClick={() => setCurrentPage("EventEdit")}>
+                  Create new event
+                </button>
+              )}
+              {currentUser.canViewEvent() && (
+                <button onClick={() => setCurrentPage("EventDisplay")}>
+                  View events
+                </button>
+              )}
+            </div>
+          )}
+          {currentPage === "EventDisplay" && (
+            <EventDisplay
+              events={allEvents}
+              updateActiveEvent={updateActiveEvent}
+              canEditEvent={currentUser.canEditEvent()}
+              handleOnBack={handleOnBack}
+            />
+          )}
 
-          {isEditingEvent ? (
+          {currentPage === "EventEdit" && (
             <EventPlanning
               handleNewEvent={handleNewEvent}
               handleUpdateEvent={handleUpdateEvent}
@@ -177,19 +211,6 @@ function App() {
               canRejectEvent={currentUser.canRejectEvent()}
               canAcceptEvent={currentUser.canAcceptEvent()}
             />
-          ) : (
-            <>
-              {currentUser.canCreateEvent() && (
-                <button onClick={() => setIsEditingEvent(true)}>
-                  Create new event
-                </button>
-              )}
-              <EventDisplay
-                events={allEvents}
-                updateActiveEvent={updateActiveEvent}
-                canEditEvent={currentUser.canEditEvent()}
-              />
-            </>
           )}
         </>
       )}

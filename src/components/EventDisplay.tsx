@@ -7,7 +7,8 @@ const EventDisplay: React.FC<{
   events: EventPlan[];
   canEditEvent: boolean;
   updateActiveEvent: (eventId: string) => void;
-}> = ({ events, updateActiveEvent, canEditEvent }) => {
+  handleOnBack: () => void;
+}> = ({ events, updateActiveEvent, canEditEvent, handleOnBack }) => {
   return (
     <div style={{ margin: "0 30px 0 30px" }}>
       <h2>List of events:</h2>
@@ -77,6 +78,9 @@ const EventDisplay: React.FC<{
             </div>
           );
         })}
+      </div>
+      <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <button onClick={handleOnBack}>Back</button>
       </div>
     </div>
   );
