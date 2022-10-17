@@ -383,7 +383,7 @@ function App() {
                   View department tasks
                 </button>
               )}
-              {currentUser.canOnlyAddPlanAndComment() && (
+              {currentUser.isInSubteamAndNotManager() && (
                 <button onClick={() => setCurrentPage("UserTasksDisplay")}>
                   View my tasks
                 </button>
@@ -442,7 +442,7 @@ function App() {
               activeDepartmentTask={activeDepartmentTasks}
               isInProductionTeam={currentUser.isInProductionTeam()}
               allEvents={allEvents}
-              canOnlyAddPlanAndComment={currentUser.canOnlyAddPlanAndComment()}
+              isInSubteamAndNotManager={currentUser.isInSubteamAndNotManager()}
               handleNewDepartmentTask={handleNewDepartmentTask}
               handleUpdateDepartmentTask={handleUpdateDepartmentTask}
               handleOnBack={handleOnBack}

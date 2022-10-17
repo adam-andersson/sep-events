@@ -101,17 +101,13 @@ class Employee {
     return this.canEditFinancialRequest();
   }
 
-  canViewDepartmentTasks() {
-    return this.isInProductionTeam() || this.isInServicesTeam();
-  }
-
   canCreateDepartmentTasks() {
     return (
       this.role === "Production Manager" || this.role === "Service Manager"
     );
   }
 
-  canOnlyAddPlanAndComment() {
+  isInSubteamAndNotManager() {
     return (
       (this.isInProductionTeam() || this.isInServicesTeam()) &&
       !this.canCreateDepartmentTasks()

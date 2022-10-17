@@ -9,7 +9,7 @@ const DepartmentTasks: React.FC<{
   activeDepartmentTask: DepartmentTask | null;
   isInProductionTeam: boolean;
   allEvents: EventPlan[];
-  canOnlyAddPlanAndComment: boolean;
+  isInSubteamAndNotManager: boolean;
   potentialAssignees: Employee[];
   handleUpdateDepartmentTask: (
     subteam: Subteam,
@@ -34,7 +34,7 @@ const DepartmentTasks: React.FC<{
   activeDepartmentTask,
   isInProductionTeam,
   allEvents,
-  canOnlyAddPlanAndComment,
+  isInSubteamAndNotManager,
   potentialAssignees,
   handleUpdateDepartmentTask,
   handleNewDepartmentTask,
@@ -127,7 +127,7 @@ const DepartmentTasks: React.FC<{
           <select
             onChange={(refEvent) => setEventId(refEvent.target.value)}
             value={eventId}
-            disabled={canOnlyAddPlanAndComment}
+            disabled={isInSubteamAndNotManager}
           >
             {allEvents.map((event, i) => (
               <option value={event.eventId} key={i}>{`${
@@ -150,7 +150,7 @@ const DepartmentTasks: React.FC<{
               setDescription(descEvent.target.value);
             }}
             value={description}
-            disabled={canOnlyAddPlanAndComment}
+            disabled={isInSubteamAndNotManager}
           ></textarea>
         </div>
 
@@ -167,7 +167,7 @@ const DepartmentTasks: React.FC<{
               setAssignee(assigneeEvent.target.value)
             }
             value={assignee}
-            disabled={canOnlyAddPlanAndComment}
+            disabled={isInSubteamAndNotManager}
           >
             {potentialAssignees.map((assignee, i) => (
               <option
@@ -192,7 +192,7 @@ const DepartmentTasks: React.FC<{
               if (isOfTypePriority(newPriority)) setPriority(newPriority);
             }}
             value={priority}
-            disabled={canOnlyAddPlanAndComment}
+            disabled={isInSubteamAndNotManager}
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -203,7 +203,7 @@ const DepartmentTasks: React.FC<{
         <div
           style={{
             display: `${
-              !canOnlyAddPlanAndComment && !financialComment ? "none" : "grid"
+              !isInSubteamAndNotManager && !financialComment ? "none" : "grid"
             }`,
             gridTemplateColumns: "1fr 1fr",
             gap: "5px",
@@ -215,14 +215,14 @@ const DepartmentTasks: React.FC<{
               setPlan(planEvent.target.value);
             }}
             value={plan}
-            disabled={!canOnlyAddPlanAndComment}
+            disabled={!isInSubteamAndNotManager}
           ></textarea>
         </div>
 
         <div
           style={{
             display: `${
-              !canOnlyAddPlanAndComment && !financialComment ? "none" : "grid"
+              !isInSubteamAndNotManager && !financialComment ? "none" : "grid"
             }`,
             gridTemplateColumns: "1fr 1fr",
             gap: "5px",
@@ -234,7 +234,7 @@ const DepartmentTasks: React.FC<{
               setFinancialComment(fcEvent.target.value);
             }}
             value={financialComment}
-            disabled={!canOnlyAddPlanAndComment}
+            disabled={!isInSubteamAndNotManager}
           ></textarea>
         </div>
 
