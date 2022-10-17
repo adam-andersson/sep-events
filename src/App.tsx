@@ -13,6 +13,7 @@ import FinancialRequestEdit from "./components/FinancialRequestEdit";
 import FinancialRequest from "./models/financialRequest";
 import { Department } from "./types/departments";
 import { RequestStatus } from "./types/requestStatus";
+import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -272,6 +273,15 @@ function App() {
               handleUpdateFinancialRequest={handleUpdateFinancialRequest}
               handleOnBack={handleOnBack}
               isEditing={false}
+            />
+          )}
+
+          {currentPage === "FinancialRequestDisplay" && (
+            <FinancialRequestDisplay
+              canEditRequest={false}
+              handleOnBack={handleOnBack}
+              financialRequests={allFinancialRequests}
+              updateFinancialRequest={(b) => console.log(b)}
             />
           )}
         </>
