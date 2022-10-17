@@ -18,15 +18,27 @@
         "role": "Customer Service Officer"
     },
     {
-        "name": "pt",
-        "email": "pt@sep.com",
-        "password": "1234",
-        "role": "Production Team"
-    },
-    {
         "name": "scs",
         "email": "scs@sep.com",
         "password": "1234",
         "role": "Senior Customer Service Officer"
+    },
+    {
+        "name": "fm",
+        "email": "fm@sep.com",
+        "password": "1234",
+        "role": "Financial Manager"
+    },
+    {
+        "name": "am",
+        "email": "am@sep.com",
+        "password": "1234",
+        "role": "Administration Manager"
+    },
+    {
+        "name": "pt",
+        "email": "pt@sep.com",
+        "password": "1234",
+        "role": "Production Team"
     }
 ]

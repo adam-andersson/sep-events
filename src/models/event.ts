@@ -59,7 +59,7 @@ class EventPlan {
     this.budget = budget;
   }
 
-  addComments(comments: string) {
+  setComments(comments: string) {
     this.comments = comments;
   }
 

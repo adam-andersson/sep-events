@@ -37,7 +37,8 @@ function App() {
     startDate: Date,
     endDate: Date,
     attendees: number,
-    budget: number
+    budget: number,
+    financialComment: string
   ) => {
     if (!activeEvent) return;
     if (activeEvent.clientName !== clientName)
@@ -51,6 +52,8 @@ function App() {
     if (activeEvent.attendees !== attendees)
       activeEvent.setAttendees(attendees);
     if (activeEvent.budget !== budget) activeEvent.setBudget(budget);
+    if (activeEvent.comments !== financialComment)
+      activeEvent.setComments(financialComment);
     setActiveEvent(null);
     setIsEditingEvent(false);
   };
@@ -145,6 +148,7 @@ function App() {
           <button
             onClick={() => {
               setActiveEvent(null);
+              setIsEditingEvent(false);
               setCurrentUser(null);
             }}
           >
@@ -165,6 +169,8 @@ function App() {
               handleOnBack={handleOnBack}
               isEditing={!!activeEvent}
               event={activeEvent}
+              canEditEventDetails={currentUser.canEditEventDetails()}
+              canAddFinancialComments={currentUser.canAddFinancialComments()}
               canRedirectToFinancialManager={currentUser.canRedirectToFinancialManager()}
               canRedirectToAdministrationManager={currentUser.canRedirectToAdministrationManager()}
               canRejectEvent={currentUser.canRejectEvent()}

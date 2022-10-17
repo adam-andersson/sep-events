@@ -8,6 +8,8 @@ import { EventStatus, isOfTypeEventStatus } from "../types/eventStatus";
 const EventPlanning: React.FC<{
   event: EventPlan | null;
   isEditing: boolean;
+  canEditEventDetails: boolean;
+  canAddFinancialComments: boolean;
   canRedirectToFinancialManager: boolean;
   canRedirectToAdministrationManager: boolean;
   canRejectEvent: boolean;
@@ -19,7 +21,8 @@ const EventPlanning: React.FC<{
     startDate: Date,
     endDate: Date,
     attendees: number,
-    budget: number
+    budget: number,
+    financialComment: string
   ) => void;
   handleNewEvent: (
     clientName: string,
@@ -34,6 +37,8 @@ const EventPlanning: React.FC<{
 }> = ({
   event,
   isEditing,
+  canEditEventDetails,
+  canAddFinancialComments,
   canRedirectToFinancialManager,
   canRedirectToAdministrationManager,
   canRejectEvent,
@@ -49,6 +54,7 @@ const EventPlanning: React.FC<{
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [attendees, setAttendees] = useState<number>(0);
   const [budget, setBudget] = useState<number>(0);
+  const [financialComment, setFinancialComment] = useState<string>("");
 
   useEffect(() => {
     if (isEditing && event) {
@@ -59,6 +65,7 @@ const EventPlanning: React.FC<{
       setEndDate(event.endDate);
       setAttendees(event.attendees);
       setBudget(event.budget);
+      setFinancialComment(event.comments);
     }
   }, [event, isEditing]);
 
@@ -72,7 +79,8 @@ const EventPlanning: React.FC<{
         startDate,
         endDate,
         attendees,
-        budget
+        budget,
+        financialComment
       );
     } else {
       // we are creating a new event
@@ -107,6 +115,7 @@ const EventPlanning: React.FC<{
             type="text"
             onChange={(cn) => setClientName(cn.target.value)}
             value={clientName}
+            disabled={!canEditEventDetails}
           ></input>
         </div>
         <div
@@ -123,6 +132,13 @@ const EventPlanning: React.FC<{
                 setStatus(statusChangeEvent.target.value);
             }}
             value={status}
+            disabled={
+              !(
+                canRedirectToFinancialManager ||
+                canRejectEvent ||
+                canRedirectToAdministrationManager
+              )
+            }
           >
             <option value={"Pending"}>Pending</option>
             <option
@@ -157,6 +173,7 @@ const EventPlanning: React.FC<{
             type="text"
             onChange={(et) => setEventType(et.target.value)}
             value={eventType}
+            disabled={!canEditEventDetails}
           ></input>
         </div>
         <div
@@ -170,6 +187,7 @@ const EventPlanning: React.FC<{
           <DatePicker
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)}
+            disabled={!canEditEventDetails}
           />
         </div>
         <div
@@ -183,6 +201,7 @@ const EventPlanning: React.FC<{
           <DatePicker
             selected={endDate}
             onChange={(date: Date) => setEndDate(date)}
+            disabled={!canEditEventDetails}
           />
         </div>
         <div
@@ -200,6 +219,7 @@ const EventPlanning: React.FC<{
               setAttendees(newAttendees);
             }}
             value={attendees}
+            disabled={!canEditEventDetails}
           ></input>
         </div>
         <div
@@ -217,7 +237,24 @@ const EventPlanning: React.FC<{
               setBudget(newBudget);
             }}
             value={budget}
+            disabled={!canEditEventDetails}
           ></input>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "5px",
+          }}
+        >
+          <label>Financial Comment</label>
+          <textarea
+            onChange={(fc) => {
+              setFinancialComment(fc.target.value);
+            }}
+            value={financialComment}
+            disabled={!canAddFinancialComments}
+          ></textarea>
         </div>
         <div
           style={{

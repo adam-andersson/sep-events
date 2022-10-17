@@ -28,6 +28,7 @@ const EventDisplay: React.FC<{
             eventType,
             attendees,
             budget,
+            comments,
           } = event;
           return (
             <div
@@ -62,6 +63,9 @@ const EventDisplay: React.FC<{
               </div>
               <div>
                 <b>Budget:</b> {budget}
+              </div>
+              <div>
+                <b>Comments:</b> {comments}
               </div>
               {canEditEvent && (
                 <div>

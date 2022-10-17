@@ -29,10 +29,20 @@ class Employee {
     return (
       this.role === "Senior Customer Service Officer" ||
       this.role === "Financial Manager" ||
-      this.role === "Administration Manager" ||
-      this.role === "Production Manager" ||
-      this.role === "Service Manager"
+      this.role === "Administration Manager"
     );
+  }
+
+  canEditEventDetails() {
+    return (
+      this.role === "Customer Service Officer" ||
+      this.role === "Senior Customer Service Officer" ||
+      this.role === "Administration Manager"
+    );
+  }
+
+  canAddFinancialComments() {
+    return this.role === "Financial Manager";
   }
 
   canRedirectToFinancialManager() {
