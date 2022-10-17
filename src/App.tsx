@@ -15,6 +15,7 @@ import FinancialRequest from "./models/financialRequest";
 import { Department } from "./types/departments";
 import { isOfTypeRequestStatus, RequestStatus } from "./types/requestStatus";
 import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
+import DepartmentTasks from "./components/DepartmentTasks";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -284,6 +285,11 @@ function App() {
                   View financial requests
                 </button>
               )}
+              {currentUser.canCreateDepartmentTasks() && (
+                <button onClick={() => setCurrentPage("DepartmentTasks")}>
+                  Create department tasks
+                </button>
+              )}
             </div>
           )}
           {currentPage === "EventDisplay" && (
@@ -331,6 +337,8 @@ function App() {
               updateFinancialRequest={updateActiveFinancialRequest}
             />
           )}
+
+          {currentPage === "DepartmentTasks" && <DepartmentTasks />}
         </>
       )}
     </div>

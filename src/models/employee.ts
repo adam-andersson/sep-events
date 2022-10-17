@@ -96,6 +96,12 @@ class Employee {
     return this.canEditFinancialRequest();
   }
 
+  canCreateDepartmentTasks() {
+    return (
+      this.role === "Production Manager" || this.role === "Service Manager"
+    );
+  }
+
   isInProductionSubTeam() {
     return (
       this.role === "Decorating Architect" ||
