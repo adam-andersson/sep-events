@@ -7,8 +7,20 @@ const DepartmentTasks: React.FC<{
   isInProductionTeam: boolean;
   allEvents: EventPlan[];
   potentialAssignees: Employee[];
+  handleNewDepartmentTask: (
+    eventId: string,
+    description: string,
+    assignee: string,
+    priority: Priority
+  ) => void;
   handleOnBack: () => void;
-}> = ({ isInProductionTeam, allEvents, potentialAssignees, handleOnBack }) => {
+}> = ({
+  isInProductionTeam,
+  allEvents,
+  potentialAssignees,
+  handleNewDepartmentTask,
+  handleOnBack,
+}) => {
   const [eventId, setEventId] = useState<string>(allEvents[0].eventId);
   const [description, setDescription] = useState<string>("");
   const [assignee, setAssignee] = useState<string>(potentialAssignees[0].name);
@@ -26,8 +38,9 @@ const DepartmentTasks: React.FC<{
       ]
     : ["Food Related", "Table Service"];
 
-  const handleSubmit = () => {
-    console.log("Submit");
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleNewDepartmentTask(eventId, description, assignee, priority);
   };
 
   return (

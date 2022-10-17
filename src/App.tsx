@@ -16,6 +16,8 @@ import { Department } from "./types/departments";
 import { isOfTypeRequestStatus, RequestStatus } from "./types/requestStatus";
 import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 import DepartmentTasks from "./components/DepartmentTasks";
+import { Priority } from "./types/priorities";
+import DepartmentTask from "./models/departmentTask";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -31,6 +33,12 @@ function App() {
   >([]);
   const [activeFinancialRequest, setActiveFinancialRequest] =
     useState<FinancialRequest | null>(null);
+
+  const [allDepartmentTasks, setAllDepartmentTasks] = useState<
+    DepartmentTask[]
+  >([]);
+  const [activeDepartmentTasks, setActiveDepartmentTasks] =
+    useState<DepartmentTask | null>(null);
 
   const updateActiveEvent = (eventId: string) => {
     const selectedEvent = allEvents.find((event) => event.eventId === eventId);
@@ -122,8 +130,6 @@ function App() {
       status
     );
 
-    console.log(newFinancialRequest.convertToJson());
-
     setAllFinancialRequests([...allFinancialRequests, newFinancialRequest]);
     setActiveFinancialRequest(null);
     setCurrentPage("FinancialRequestDisplay");
@@ -145,6 +151,23 @@ function App() {
 
     setActiveFinancialRequest(null);
     setCurrentPage("FinancialRequestDisplay");
+  };
+
+  const handleNewDepartmentTask = (
+    eventId: string,
+    description: string,
+    assignee: string,
+    priority: Priority
+  ) => {
+    const newDepartmentTask = new DepartmentTask(
+      eventId,
+      description,
+      assignee,
+      priority
+    );
+
+    setAllDepartmentTasks([...allDepartmentTasks, newDepartmentTask]);
+    setCurrentPage("Homepage");
   };
 
   const handleGoodUser = (user: Employee) => {
@@ -342,6 +365,7 @@ function App() {
             <DepartmentTasks
               isInProductionTeam={currentUser.isInProductionTeam()}
               allEvents={allEvents}
+              handleNewDepartmentTask={handleNewDepartmentTask}
               handleOnBack={handleOnBack}
               potentialAssignees={employees.filter((employee) => {
                 if (currentUser.role === "Production Manager") {
