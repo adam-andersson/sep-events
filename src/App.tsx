@@ -19,7 +19,11 @@ import DepartmentTasks from "./components/DepartmentTasks";
 import { Priority } from "./types/priorities";
 import DepartmentTask from "./models/departmentTask";
 import DepartmentTasksDisplay from "./components/DepartmentTasksDisplay";
-import { Subteam } from "./types/subteam";
+import {
+  isOfTypeProductionSubteam,
+  isOfTypeServiceSubteam,
+  Subteam,
+} from "./types/subteam";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -317,9 +321,14 @@ function App() {
                   Create department tasks
                 </button>
               )}
-              {currentUser.canViewDepartmentTasks() && (
+              {currentUser.canCreateDepartmentTasks() && (
                 <button onClick={() => setCurrentPage("DepartmentTaskDisplay")}>
                   View department tasks
+                </button>
+              )}
+              {currentUser.canViewDepartmentTasks() && (
+                <button onClick={() => setCurrentPage("UserTasksDisplay")}>
+                  View my tasks
                 </button>
               )}
             </div>
@@ -393,8 +402,26 @@ function App() {
 
           {currentPage === "DepartmentTaskDisplay" && (
             <DepartmentTasksDisplay
+              isOnlyUserTasks={false}
               updateDepartmentTask={() => console.log("click")}
-              departmentTasks={allDepartmentTasks}
+              departmentTasks={allDepartmentTasks.filter((task) => {
+                if (currentUser.role === "Production Manager") {
+                  return isOfTypeProductionSubteam(task.subteam);
+                } else if (currentUser.role === "Service Manager") {
+                  return isOfTypeServiceSubteam(task.subteam);
+                } else return false;
+              })}
+              handleOnBack={handleOnBack}
+            />
+          )}
+
+          {currentPage === "UserTasksDisplay" && (
+            <DepartmentTasksDisplay
+              isOnlyUserTasks={true}
+              updateDepartmentTask={() => console.log("click")}
+              departmentTasks={allDepartmentTasks.filter(
+                (task) => task.assignee === currentUser.name
+              )}
               handleOnBack={handleOnBack}
             />
           )}
