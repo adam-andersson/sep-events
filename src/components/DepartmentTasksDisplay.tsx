@@ -55,6 +55,11 @@ const DepartmentTasksDisplay: React.FC<{
                 <div>
                   <b>Priority:</b> {priority}
                 </div>
+                <div>
+                  <button onClick={() => updateDepartmentTask(dt.taskId)}>
+                    Edit Task
+                  </button>
+                </div>
               </div>
             );
           })}

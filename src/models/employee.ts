@@ -111,6 +111,13 @@ class Employee {
     );
   }
 
+  canOnlyAddPlanAndComment() {
+    return (
+      (this.isInProductionTeam() || this.isInServicesTeam()) &&
+      !this.canCreateDepartmentTasks()
+    );
+  }
+
   isInProductionTeam() {
     return (
       this.role === "Production Manager" ||

@@ -46,6 +46,26 @@ function App() {
   const [activeDepartmentTasks, setActiveDepartmentTasks] =
     useState<DepartmentTask | null>(null);
 
+  /** Handle login success */
+  const handleGoodUser = (user: Employee) => {
+    setCurrentUser(user);
+    setCurrentPage("Homepage");
+  };
+
+  /** Handle login failure */
+  const handleBadUser = () => {
+    setCurrentUser(null);
+  };
+
+  /** Reset all active states and redirect to homepage when user clicks back button */
+  const handleOnBack = () => {
+    setActiveEvent(null);
+    setActiveFinancialRequest(null);
+    setActiveDepartmentTasks(null);
+    setCurrentPage("Homepage");
+  };
+
+  /** Change the event that is currently being edited */
   const updateActiveEvent = (eventId: string) => {
     const selectedEvent = allEvents.find((event) => event.eventId === eventId);
     if (selectedEvent) {
@@ -54,23 +74,52 @@ function App() {
     }
   };
 
+  /** Change the financial request that is currently being edited */
   const updateActiveFinancialRequest = (requestId: string) => {
     const selectedFinancialRequest = allFinancialRequests.find(
       (fr) => fr.requestId === requestId
     );
-
     if (selectedFinancialRequest) {
       setCurrentPage("FinancialRequestEdit");
       setActiveFinancialRequest(selectedFinancialRequest);
     }
   };
 
-  const handleOnBack = () => {
-    setActiveEvent(null);
-    setActiveFinancialRequest(null);
-    setCurrentPage("Homepage");
+  /** Change the department task that is currently being edited */
+  const updateActiveDepartmentTask = (taskId: string) => {
+    const selectedDepartmentTask = allDepartmentTasks.find(
+      (dt) => dt.taskId === taskId
+    );
+    if (selectedDepartmentTask) {
+      setCurrentPage("DepartmentTaskEdit");
+      setActiveDepartmentTasks(selectedDepartmentTask);
+    }
   };
 
+  /** Handle the logic and call the constructor and update local state when a new event is created */
+  const handleNewEvent = (
+    clientName: string,
+    status: EventStatus,
+    eventType: string,
+    startDate: Date,
+    endDate: Date,
+    attendees: number,
+    budget: number
+  ) => {
+    const newEvent = new EventPlan(
+      clientName,
+      status,
+      startDate,
+      endDate,
+      eventType,
+      attendees,
+      budget
+    );
+    setAllEvents([...allEvents, newEvent]);
+    setCurrentPage("EventDisplay");
+  };
+
+  /** Handle the logic for calling methods to update the event currently being edited */
   const handleUpdateEvent = (
     clientName: string,
     status: EventStatus,
@@ -99,28 +148,7 @@ function App() {
     setCurrentPage("EventDisplay");
   };
 
-  const handleNewEvent = (
-    clientName: string,
-    status: EventStatus,
-    eventType: string,
-    startDate: Date,
-    endDate: Date,
-    attendees: number,
-    budget: number
-  ) => {
-    const newEvent = new EventPlan(
-      clientName,
-      status,
-      startDate,
-      endDate,
-      eventType,
-      attendees,
-      budget
-    );
-    setAllEvents([...allEvents, newEvent]);
-    setCurrentPage("EventDisplay");
-  };
-
+  /** Handle the logic and call the constructor and update local state when a new financial request is created */
   const handleNewFinancialRequest = (
     requestingDept: Department | "",
     eventId: string,
@@ -141,6 +169,7 @@ function App() {
     setCurrentPage("FinancialRequestDisplay");
   };
 
+  /** Handle the logic for calling methods to update the financial request currently being edited */
   const handleUpdateFinancialRequest = (
     requestingDept: Department | "",
     eventId: string,
@@ -159,32 +188,59 @@ function App() {
     setCurrentPage("FinancialRequestDisplay");
   };
 
+  /** Handle the logic and call the constructor and update local state when a new department task is created */
   const handleNewDepartmentTask = (
     subteam: Subteam,
     eventId: string,
     description: string,
     assignee: string,
-    priority: Priority
+    priority: Priority,
+    plan: string,
+    financialComment: string
   ) => {
     const newDepartmentTask = new DepartmentTask(
       subteam,
       eventId,
       description,
       assignee,
-      priority
+      priority,
+      plan,
+      financialComment
     );
 
     setAllDepartmentTasks([...allDepartmentTasks, newDepartmentTask]);
-    setCurrentPage("Homepage");
+    setCurrentPage("DepartmentTaskDisplay");
   };
 
-  const handleGoodUser = (user: Employee) => {
-    setCurrentUser(user);
-    setCurrentPage("Homepage");
-  };
+  /** Handle the logic for calling methods to update the department task currently being edited */
+  const handleUpdateDepartmentTask = (
+    subteam: Subteam,
+    eventId: string,
+    description: string,
+    assignee: string,
+    priority: Priority,
+    plan: string,
+    financialComment: string
+  ) => {
+    if (!activeDepartmentTasks) return;
+    subteam && activeDepartmentTasks.setSubteam(subteam);
+    eventId && activeDepartmentTasks.setEventId(eventId);
+    description && activeDepartmentTasks.setDescription(description);
+    assignee && activeDepartmentTasks.setAssignee(assignee);
+    priority && activeDepartmentTasks.setPriority(priority);
+    plan && activeDepartmentTasks.setPlan(plan);
+    financialComment &&
+      activeDepartmentTasks.setFinancialComment(financialComment);
 
-  const handleBadUser = () => {
-    setCurrentUser(null);
+    setActiveDepartmentTasks(null);
+
+    if (!currentUser) {
+      setCurrentPage("Login");
+      return;
+    }
+    currentUser.canCreateDepartmentTasks()
+      ? setCurrentPage("DepartmentTaskDisplay")
+      : setCurrentPage("UserTasksDisplay");
   };
 
   /** Read Employees from 'database' and create class instances from them */
@@ -268,8 +324,8 @@ function App() {
         <>
           <button /** Logout button */
             onClick={() => {
-              setActiveEvent(null);
-              setCurrentUser(null);
+              handleBadUser();
+              handleOnBack();
               setCurrentPage("Login");
             }}
             style={{ margin: "10px" }}
@@ -283,6 +339,7 @@ function App() {
               {currentUser.role}
             </h3>
           </div>
+
           {currentPage === "Homepage" && (
             <div
               style={{
@@ -333,6 +390,7 @@ function App() {
               )}
             </div>
           )}
+
           {currentPage === "EventDisplay" && (
             <EventDisplay
               events={allEvents}
@@ -381,19 +439,18 @@ function App() {
 
           {currentPage === "DepartmentTaskEdit" && (
             <DepartmentTasks
+              activeDepartmentTask={activeDepartmentTasks}
               isInProductionTeam={currentUser.isInProductionTeam()}
               allEvents={allEvents}
+              canOnlyAddPlanAndComment={currentUser.canOnlyAddPlanAndComment()}
               handleNewDepartmentTask={handleNewDepartmentTask}
+              handleUpdateDepartmentTask={handleUpdateDepartmentTask}
               handleOnBack={handleOnBack}
               potentialAssignees={employees.filter((employee) => {
-                if (currentUser.role === "Production Manager") {
-                  return employee.role !== currentUser.role
-                    ? employee.isInProductionTeam()
-                    : false;
-                } else if (currentUser.role === "Service Manager") {
-                  return employee.role !== currentUser.role
-                    ? employee.isInServicesTeam()
-                    : false;
+                if (currentUser.isInProductionTeam()) {
+                  return employee.isInProductionTeam();
+                } else if (currentUser.isInServicesTeam()) {
+                  return employee.isInServicesTeam();
                 }
                 return false;
               })}
@@ -403,7 +460,7 @@ function App() {
           {currentPage === "DepartmentTaskDisplay" && (
             <DepartmentTasksDisplay
               isOnlyUserTasks={false}
-              updateDepartmentTask={() => console.log("click")}
+              updateDepartmentTask={updateActiveDepartmentTask}
               departmentTasks={allDepartmentTasks.filter((task) => {
                 if (currentUser.role === "Production Manager") {
                   return isOfTypeProductionSubteam(task.subteam);
@@ -418,7 +475,7 @@ function App() {
           {currentPage === "UserTasksDisplay" && (
             <DepartmentTasksDisplay
               isOnlyUserTasks={true}
-              updateDepartmentTask={() => console.log("click")}
+              updateDepartmentTask={updateActiveDepartmentTask}
               departmentTasks={allDepartmentTasks.filter(
                 (task) => task.assignee === currentUser.name
               )}

@@ -10,18 +10,25 @@ class DepartmentTask {
   assignee: string = "";
   priority: Priority = "Medium";
 
+  plan: string = "";
+  financialComment: string = "";
+
   constructor(
     subteam?: Subteam,
     eventId?: string,
     description?: string,
     assignee?: string,
-    priority?: Priority
+    priority?: Priority,
+    plan?: string,
+    financialComment?: string
   ) {
     subteam && this.setSubteam(subteam);
     eventId && this.setEventId(eventId);
     description && this.setDescription(description);
     assignee && this.setAssignee(assignee);
     priority && this.setPriority(priority);
+    plan && this.setPlan(plan);
+    financialComment && this.setFinancialComment(financialComment);
   }
 
   setSubteam(subteam: Subteam) {
@@ -42,6 +49,14 @@ class DepartmentTask {
 
   setPriority(priority: Priority) {
     this.priority = priority;
+  }
+
+  setPlan(plan: string) {
+    this.plan = plan;
+  }
+
+  setFinancialComment(financialComment: string) {
+    this.financialComment = financialComment;
   }
 
   convertToJson() {
