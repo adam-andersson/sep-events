@@ -12,7 +12,7 @@ const Login: React.FC<{
 
   const handleSetName = (newNameEvent: React.ChangeEvent<HTMLInputElement>) => {
     setInvalidUserCred(false);
-    setName(newNameEvent.target.value);
+    setName(newNameEvent.target.value.toLowerCase());
   };
 
   const handleSetPassword = (

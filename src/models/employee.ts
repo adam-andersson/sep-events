@@ -96,6 +96,18 @@ class Employee {
     return this.canEditFinancialRequest();
   }
 
+  isInProductionSubTeam() {
+    return (
+      this.role === "Decorating Architect" ||
+      this.role === "Decorating Specialist" ||
+      this.role === "Assistant"
+    );
+  }
+
+  isInServicesSubTeam() {
+    return this.role === "Top Chef" || this.role === "Chef";
+  }
+
   convertToJson() {
     return JSON.stringify(this);
   }

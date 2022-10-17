@@ -165,7 +165,7 @@ function App() {
 
       allEmployees.push(
         new Employee(
-          employee.name,
+          employee.name.toLowerCase(),
           employee.email,
           employee.password,
           employeeRole
