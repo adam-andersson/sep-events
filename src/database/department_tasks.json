@@ -1,0 +1,42 @@
+[
+    {
+        "taskId": "e8e73759-ff4c-488e-9b9c-ec4c05aa695e",
+        "subteam": "Decorations",
+        "eventId": "b53c2cce-8330-46f7-9ac2-620e997c98e1",
+        "description": "Decorate with minimalistic industry-like details.",
+        "assignee": "magy",
+        "priority": "High",
+        "plan": "1. Buy some wheels. 2. Buy some steel lamps.",
+        "financialComment": "This would probably require an additional 5000 SEK."
+    },
+    {
+        "taskId": "90b11b40-e67c-496d-9df3-54e31ba956c2",
+        "subteam": "Decorations",
+        "eventId": "fc3bf1fa-0505-4c09-8b3a-c58d1fd3617b",
+        "description": "The client wants all red decorations.",
+        "assignee": "magy",
+        "priority": "Medium",
+        "plan": "",
+        "financialComment": ""
+    },
+    {
+        "taskId": "1566c247-34a5-4cf3-9b66-f006725ad11a",
+        "subteam": "Decorations",
+        "eventId": "fc3bf1fa-0505-4c09-8b3a-c58d1fd3617b",
+        "description": "Decorate with christmas decorations.",
+        "assignee": "angelina",
+        "priority": "Low",
+        "plan": "",
+        "financialComment": ""
+    },
+    {
+        "taskId": "4bb03c8f-c7dd-4444-8f9b-151b1c04f78a",
+        "subteam": "Food Related",
+        "eventId": "fc3bf1fa-0505-4c09-8b3a-c58d1fd3617b",
+        "description": "Christmas food. Sill and potatis. Drinks is going to be coke only products.",
+        "assignee": "helen",
+        "priority": "High",
+        "plan": "Buy fish and potato. Receive the drinks from the client company.",
+        "financialComment": "Budget is sufficient."
+    }
+]

@@ -1,22 +1,62 @@
 [
     {
-        "eventId": "0d428f40-f694-4372-961a-f3c0371a8b4e",
-        "status": "pending",
-        "clientName": "ICA AB",
-        "eventType": "Party",
-        "startDate": "2022-11-26T17:13:16.000Z",
-        "endDate": "2022-12-14T17:13:16.000Z",
-        "attendees": "12",
-        "budget": "14000"
+        "eventId": "20d28db7-cb8d-4e42-bd23-ec1b57d8bd2c",
+        "status": "Rejected",
+        "clientName": "KTH",
+        "startDate": "2022-11-22T11:06:14.000Z",
+        "endDate": "2022-11-25T11:06:14.000Z",
+        "eventType": "Book Club Week",
+        "eventDescription": "",
+        "attendees": 14,
+        "budget": 7500,
+        "comments": ""
     },
     {
-        "eventId": "0fb7d699-9858-4d75-ba79-7b50b52365bb",
-        "status": "pending",
-        "clientName": "Coop",
-        "eventType": "Coffee Club",
-        "startDate": "2022-11-28T17:13:16.000Z",
-        "endDate": "2022-11-30T18:13:16.000Z",
-        "attendees": "4",
-        "budget": "90"
+        "eventId": "cfa20f41-002d-4e39-9d7f-d38c0fc8feb7",
+        "status": "Pending",
+        "clientName": "Polisen",
+        "startDate": "2022-12-14T11:07:25.000Z",
+        "endDate": "2022-12-14T11:07:25.000Z",
+        "eventType": "Lecture on drugs for kids",
+        "eventDescription": "",
+        "attendees": 30,
+        "budget": 2000,
+        "comments": ""
+    },
+    {
+        "eventId": "b53c2cce-8330-46f7-9ac2-620e997c98e1",
+        "status": "Accepted",
+        "clientName": "Volvo",
+        "startDate": "2022-10-21T10:23:05.000Z",
+        "endDate": "2022-10-21T10:23:05.000Z",
+        "eventType": "Release Party",
+        "eventDescription": "",
+        "attendees": 2000,
+        "budget": 3000000,
+        "comments": "Budget is excellent and should suffice."
+    },
+    {
+        "eventId": "fc3bf1fa-0505-4c09-8b3a-c58d1fd3617b",
+        "status": "Accepted",
+        "clientName": "Coca Cola",
+        "startDate": "2022-11-08T11:04:17.000Z",
+        "endDate": "2022-11-08T11:04:17.000Z",
+        "eventType": "After Work",
+        "eventDescription": "",
+        "attendees": 30,
+        "budget": 30000,
+        "comments": "Budget is appropriate for the number of attendees."
+    },
+    {
+        "eventId": "71c52d37-11ad-4a22-8d95-3ead1a7e47cc",
+        "status": "Under Administration Review",
+        "clientName": "Avanza",
+        "startDate": "2022-11-09T11:08:29.000Z",
+        "endDate": "2022-11-09T11:08:29.000Z",
+        "eventType": "IPO Event",
+        "eventDescription": "",
+        "attendees": 300,
+        "budget": 150000,
+        "comments": "This budget might be on the low end, I would recommend at least 200.000 for this type of event."
     }
 ]

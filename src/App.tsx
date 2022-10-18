@@ -1,9 +1,10 @@
 import Employee from "./models/employee";
 import Login from "./components/Login";
 import jsonEmployees from "./database/employees.json";
-import eventPlans from "./database/events.json";
+import jsonEventPlans from "./database/events.json";
 import jsonFinancialRequests from "./database/financial_requests.json";
 import jsonRecruitmentRequests from "./database/recruitment_requests.json";
+import jsonDepartmentTasks from "./database/department_tasks.json";
 import React, { useState } from "react";
 import EventPlanning from "./components/EventPlanning";
 import EventPlan from "./models/event";
@@ -17,12 +18,13 @@ import { Department } from "./types/departments";
 import { isOfTypeRequestStatus, RequestStatus } from "./types/requestStatus";
 import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 import DepartmentTasks from "./components/DepartmentTasks";
-import { Priority } from "./types/priorities";
+import { isOfTypePriority, Priority } from "./types/priorities";
 import DepartmentTask from "./models/departmentTask";
 import DepartmentTasksDisplay from "./components/DepartmentTasksDisplay";
 import {
   isOfTypeProductionSubteam,
   isOfTypeServiceSubteam,
+  isOfTypeSubteam,
   Subteam,
 } from "./types/subteam";
 import RecruitmentRequest from "./models/recruitmentRequest";
@@ -166,6 +168,7 @@ function App() {
     if (activeEvent.budget !== budget) activeEvent.setBudget(budget);
     if (activeEvent.comments !== financialComment)
       activeEvent.setComments(financialComment);
+
     setActiveEvent(null);
     setCurrentPage("EventDisplay");
   };
@@ -275,6 +278,7 @@ function App() {
     );
 
     setAllDepartmentTasks([...allDepartmentTasks, newDepartmentTask]);
+    setActiveDepartmentTasks(null);
     setCurrentPage("DepartmentTaskDisplay");
   };
 
@@ -332,21 +336,35 @@ function App() {
   /** Read Events from 'database' and create class instances from them */
   React.useEffect(() => {
     const events: EventPlan[] = [];
-    eventPlans.forEach((event) => {
+    jsonEventPlans.forEach((event) => {
       const parsedEventStatus: EventStatus = isOfTypeEventStatus(event.status)
         ? event.status
         : "Pending";
-      const parsedAttendees = parseInt(event.attendees, 10);
-      const parsedBudget = parseInt(event.budget, 10);
+
+      /** Some date conversion to keep this application away from throwing errors when the database dates gets earlier than todays date */
+      const parsedStartDate = new Date(event.startDate);
+      const parsedEndDate = new Date(event.endDate);
+      const currentDate = new Date();
+      if (parsedStartDate.getTime() <= currentDate.getTime()) {
+        parsedStartDate.setMonth(currentDate.getMonth() + 1);
+      }
+
+      if (parsedEndDate.getTime() <= parsedStartDate.getTime()) {
+        parsedEndDate.setMonth(parsedStartDate.getMonth());
+        parsedEndDate.setDate(parsedStartDate.getDate());
+      }
+
       events.push(
         new EventPlan(
           event.clientName,
           parsedEventStatus,
-          new Date(event.startDate),
-          new Date(event.endDate),
+          parsedStartDate,
+          parsedEndDate,
           event.eventType,
-          parsedAttendees,
-          parsedBudget
+          event.attendees,
+          event.budget,
+          event.comments,
+          event.eventId
         )
       );
     });
@@ -395,6 +413,38 @@ function App() {
       );
     });
     setAllRecruitmentRequests(recReqs);
+  }, []);
+
+  /** Read department tasks from 'database' and create class instances from them */
+  React.useEffect(() => {
+    const depTasks: DepartmentTask[] = [];
+    jsonDepartmentTasks.forEach((dt) => {
+      const {
+        subteam,
+        assignee,
+        description,
+        eventId,
+        financialComment,
+        plan,
+        priority,
+      } = dt;
+
+      const parsedSubteam = isOfTypeSubteam(subteam) ? subteam : "Decorations";
+      const parsedPriority = isOfTypePriority(priority) ? priority : "Medium";
+
+      depTasks.push(
+        new DepartmentTask(
+          parsedSubteam,
+          eventId,
+          description,
+          assignee,
+          parsedPriority,
+          plan,
+          financialComment
+        )
+      );
+    });
+    setAllDepartmentTasks(depTasks);
   }, []);
 
   return (

@@ -5,6 +5,14 @@
         "eventId": "e12488",
         "requiredAmount": 5000,
         "reason": "Needed for Decorations\nBetter quality of the requested lights by the client can be ordered online.",
+        "status": "Processed"
+    },
+    {
+        "requestId": "d6dcc9d2-70c3-4708-b505-e3527b8d8d06",
+        "requestingDept": "Production",
+        "eventId": "b53c2cce-8330-46f7-9ac2-620e997c98e1",
+        "requiredAmount": 5000,
+        "reason": "Buying decorations for event.",
         "status": "Pending"
     }
 ]

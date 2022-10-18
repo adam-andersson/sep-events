@@ -19,7 +19,9 @@ class EventPlan {
     endDate?: Date,
     eventType?: string,
     attendees?: number,
-    budget?: number
+    budget?: number,
+    comments?: string,
+    eventId?: string
   ) {
     this.eventId = v4();
     status && this.setStatus(status);
@@ -29,6 +31,12 @@ class EventPlan {
     endDate && this.setEndDate(endDate);
     attendees && this.setAttendees(attendees);
     budget && this.setBudget(budget);
+    comments && this.setComments(comments);
+    eventId && this.setEventId(eventId);
+  }
+
+  setEventId(eventId: string) {
+    this.eventId = eventId;
   }
 
   setStatus(status: EventStatus) {
