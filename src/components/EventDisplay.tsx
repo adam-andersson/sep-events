@@ -9,6 +9,9 @@ const EventDisplay: React.FC<{
   updateActiveEvent: (eventId: string) => void;
   handleOnBack: () => void;
 }> = ({ events, updateActiveEvent, canEditEvent, handleOnBack }) => {
+  const sortedEvents = events.sort(
+    (a, b) => a.startDate.getTime() - b.startDate.getTime()
+  );
   return (
     <div style={{ margin: "0 30px 0 30px" }}>
       <h2>List of events:</h2>
@@ -20,7 +23,7 @@ const EventDisplay: React.FC<{
           overflow: "scroll",
         }}
       >
-        {events.map((event: EventPlan, i) => {
+        {sortedEvents.map((event: EventPlan, i) => {
           const {
             status,
             clientName,
