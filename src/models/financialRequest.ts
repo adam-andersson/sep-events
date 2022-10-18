@@ -16,8 +16,11 @@ class FinancialRequest extends SepRequest {
   }
 
   setRequiredAmount(requiredAmount: number) {
-    if (requiredAmount !== this.requiredAmount)
+    if (requiredAmount !== this.requiredAmount) {
+      if (requiredAmount < 1)
+        throw new Error("The request needs to be of at least 1 monetary unit.");
       this.requiredAmount = requiredAmount;
+    }
   }
 
   setReason(reason: string) {

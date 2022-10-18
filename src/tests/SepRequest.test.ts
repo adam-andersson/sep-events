@@ -41,7 +41,7 @@ describe("Parent Request Class - Setters", () => {
   });
 });
 
-describe("Reverts to default value when constructing instance with illegal parameters", () => {
+describe("Parent Request Class - Constructor", () => {
   test("Reverts to default department when constructing with invalid department", () => {
     const testInvalidDepartmentRequest = new SepRequest(
       "InvalidDepartment",
