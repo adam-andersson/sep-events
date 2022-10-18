@@ -253,7 +253,9 @@ const EventPlanning: React.FC<{
         </div>
         <div
           style={{
-            display: "grid",
+            display: `${
+              !canAddFinancialComments && !financialComment ? "none" : "grid"
+            }`,
             gridTemplateColumns: "1fr 1fr",
             gap: "5px",
           }}

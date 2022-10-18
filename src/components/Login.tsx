@@ -73,12 +73,14 @@ const Login: React.FC<{
         <h3 style={{ marginBottom: "0" }}>Available users:</h3>
         <table id="employees">
           <thead>
-            <td>
-              <b>Name</b>
-            </td>
-            <td>
-              <b>Role</b>
-            </td>
+            <tr>
+              <td>
+                <b>Name</b>
+              </td>
+              <td>
+                <b>Role</b>
+              </td>
+            </tr>
           </thead>
           <tbody>
             {employees.map((employee, i) => (

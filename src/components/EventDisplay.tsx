@@ -65,9 +65,11 @@ const EventDisplay: React.FC<{
               <div>
                 <b>Budget:</b> {budget}
               </div>
-              <div>
-                <b>Comments:</b> {comments}
-              </div>
+              {comments && (
+                <div>
+                  <b>Comments:</b> {comments}
+                </div>
+              )}
               {canEditEvent && (
                 <div>
                   <button onClick={() => updateActiveEvent(event.eventId)}>
