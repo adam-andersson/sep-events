@@ -101,6 +101,24 @@ class Employee {
     return this.canEditFinancialRequest();
   }
 
+  canCreateRecruitmentRequest() {
+    return (
+      this.role === "Production Manager" || this.role === "Service Manager"
+    );
+  }
+
+  canEditRecruitmentRequest() {
+    return this.canCreateFinancialRequest() || this.role === "Human Resources";
+  }
+
+  canProcessRecruitmentRequest() {
+    return this.role === "Human Resources";
+  }
+
+  canViewRecruitmentRequest() {
+    return this.canEditRecruitmentRequest();
+  }
+
   canCreateDepartmentTasks() {
     return (
       this.role === "Production Manager" || this.role === "Service Manager"

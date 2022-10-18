@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import jsonEmployees from "./database/employees.json";
 import eventPlans from "./database/events.json";
 import jsonFinancialRequests from "./database/financial_requests.json";
+import jsonRecruitmentRequests from "./database/recruitment_requests.json";
 import React, { useState } from "react";
 import EventPlanning from "./components/EventPlanning";
 import EventPlan from "./models/event";
@@ -24,6 +25,9 @@ import {
   isOfTypeServiceSubteam,
   Subteam,
 } from "./types/subteam";
+import RecruitmentRequest from "./models/recruitmentRequest";
+import RecruitmentRequestEdit from "./components/RecruitmentRequestEdit";
+import RecruitmentRequestDisplay from "./components/RecruitmentRequestDisplay";
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -39,6 +43,12 @@ function App() {
   >([]);
   const [activeFinancialRequest, setActiveFinancialRequest] =
     useState<FinancialRequest | null>(null);
+
+  const [allRecruitmentRequests, setAllRecruitmentRequests] = useState<
+    RecruitmentRequest[]
+  >([]);
+  const [activeRecruitmentRequest, setActiveRecruitmentRequest] =
+    useState<RecruitmentRequest | null>(null);
 
   const [allDepartmentTasks, setAllDepartmentTasks] = useState<
     DepartmentTask[]
@@ -82,6 +92,18 @@ function App() {
     if (selectedFinancialRequest) {
       setCurrentPage("FinancialRequestEdit");
       setActiveFinancialRequest(selectedFinancialRequest);
+    }
+  };
+
+  /** Change the recruitment request that is currently being edited */
+  const updateActiveRecruitmentRequest = (requestId: string) => {
+    const selectedRecruitmentRequest = allRecruitmentRequests.find(
+      (fr) => fr.requestId === requestId
+    );
+
+    if (selectedRecruitmentRequest) {
+      setCurrentPage("RecruitmentRequestEdit");
+      setActiveRecruitmentRequest(selectedRecruitmentRequest);
     }
   };
 
@@ -186,6 +208,50 @@ function App() {
 
     setActiveFinancialRequest(null);
     setCurrentPage("FinancialRequestDisplay");
+  };
+
+  /** Handle the logic and call the constructor and update local state when a new recruitment request is created */
+  const handleNewRecruitmentRequest = (
+    requestingDept: Department | "",
+    eventId: string,
+    jobTitle: string,
+    jobDescript: string,
+    status: RequestStatus
+  ) => {
+    const newRecruitmentRequest = new RecruitmentRequest(
+      requestingDept,
+      eventId,
+      jobTitle,
+      jobDescript,
+      status
+    );
+
+    setAllRecruitmentRequests([
+      ...allRecruitmentRequests,
+      newRecruitmentRequest,
+    ]);
+    setActiveRecruitmentRequest(null);
+    setCurrentPage("RecruitmentRequestDisplay");
+  };
+
+  /** Handle the logic for calling methods to update the recruitment request currently being edited */
+  const handleUpdateRecruitmentRequest = (
+    requestingDept: Department | "",
+    eventId: string,
+    jobTitle: string,
+    jobDescript: string,
+    status: RequestStatus
+  ) => {
+    if (!activeRecruitmentRequest) return;
+    requestingDept &&
+      activeRecruitmentRequest.setRequestingDept(requestingDept);
+    eventId && activeRecruitmentRequest.setEventId(eventId);
+    jobTitle && activeRecruitmentRequest.setJobTitle(jobTitle);
+    jobDescript && activeRecruitmentRequest.setJobDescript(jobDescript);
+    status && activeRecruitmentRequest.setStatus(status);
+
+    setActiveRecruitmentRequest(null);
+    setCurrentPage("RecruitmentRequestDisplay");
   };
 
   /** Handle the logic and call the constructor and update local state when a new department task is created */
@@ -309,6 +375,28 @@ function App() {
     setAllFinancialRequests(finReqs);
   }, []);
 
+  /** Read Recruitment Requests from 'database' and create class instances from them */
+  React.useEffect(() => {
+    const recReqs: RecruitmentRequest[] = [];
+    jsonRecruitmentRequests.forEach((rr) => {
+      const parsedRequestStatus: RequestStatus = isOfTypeRequestStatus(
+        rr.status
+      )
+        ? rr.status
+        : "Pending";
+      recReqs.push(
+        new RecruitmentRequest(
+          rr.requestingDept,
+          rr.eventId,
+          rr.jobTitle,
+          rr.jobDescript,
+          parsedRequestStatus
+        )
+      );
+    });
+    setAllRecruitmentRequests(recReqs);
+  }, []);
+
   return (
     <div className="App">
       {/** If not logged in, the user can only see the login page */}
@@ -373,6 +461,20 @@ function App() {
                   View financial requests
                 </button>
               )}
+              {currentUser.canCreateRecruitmentRequest() && (
+                <button
+                  onClick={() => setCurrentPage("RecruitmentRequestEdit")}
+                >
+                  Create recruitment request
+                </button>
+              )}
+              {currentUser.canViewRecruitmentRequest() && (
+                <button
+                  onClick={() => setCurrentPage("RecruitmentRequestDisplay")}
+                >
+                  View recruitment requests
+                </button>
+              )}
               {currentUser.canCreateDepartmentTasks() && (
                 <button onClick={() => setCurrentPage("DepartmentTaskEdit")}>
                   Create department tasks
@@ -434,6 +536,27 @@ function App() {
               handleOnBack={handleOnBack}
               financialRequests={allFinancialRequests}
               updateFinancialRequest={updateActiveFinancialRequest}
+            />
+          )}
+
+          {currentPage === "RecruitmentRequestEdit" && (
+            <RecruitmentRequestEdit
+              editedRequest={activeRecruitmentRequest}
+              allEvents={allEvents}
+              handleNewRecruitmentRequest={handleNewRecruitmentRequest}
+              handleUpdateRecruitmentRequest={handleUpdateRecruitmentRequest}
+              handleOnBack={handleOnBack}
+              isEditing={!!activeRecruitmentRequest}
+              canProcessRequest={currentUser.canProcessRecruitmentRequest()}
+            />
+          )}
+
+          {currentPage === "RecruitmentRequestDisplay" && (
+            <RecruitmentRequestDisplay
+              canEditRequest={currentUser.canEditRecruitmentRequest()}
+              handleOnBack={handleOnBack}
+              recruitmentRequests={allRecruitmentRequests}
+              updateRecruitmentRequest={updateActiveRecruitmentRequest}
             />
           )}
 
