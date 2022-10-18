@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/sep-events/static/css/main.f89c0b6b.css",
+    "main.js": "/sep-events/static/js/main.e5fccca6.js",
+    "index.html": "/sep-events/index.html",
+    "main.f89c0b6b.css.map": "/sep-events/static/css/main.f89c0b6b.css.map",
+    "main.e5fccca6.js.map": "/sep-events/static/js/main.e5fccca6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f89c0b6b.css",
+    "static/js/main.e5fccca6.js"
+  ]
+}
