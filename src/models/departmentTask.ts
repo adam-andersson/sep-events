@@ -9,7 +9,6 @@ class DepartmentTask {
   description: string = "";
   assignee: string = "";
   priority: Priority = "Medium";
-
   plan: string = "";
   financialComment: string = "";
 
