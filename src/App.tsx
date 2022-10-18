@@ -14,18 +14,16 @@ import { EventStatus, isOfTypeEventStatus } from "./types/eventStatus";
 import { WebsitePage } from "./types/websitePages";
 import FinancialRequestEdit from "./components/FinancialRequestEdit";
 import FinancialRequest from "./models/financialRequest";
-import { Department } from "./types/departments";
 import { isOfTypeRequestStatus, RequestStatus } from "./types/requestStatus";
 import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 import DepartmentTasks from "./components/DepartmentTasks";
-import { isOfTypePriority, Priority } from "./types/priorities";
+import { isOfTypePriority } from "./types/priorities";
 import DepartmentTask from "./models/departmentTask";
 import DepartmentTasksDisplay from "./components/DepartmentTasksDisplay";
 import {
   isOfTypeProductionSubteam,
   isOfTypeServiceSubteam,
   isOfTypeSubteam,
-  Subteam,
 } from "./types/subteam";
 import RecruitmentRequest from "./models/recruitmentRequest";
 import RecruitmentRequestEdit from "./components/RecruitmentRequestEdit";
@@ -79,7 +77,7 @@ function App() {
 
   /** Change the event that is currently being edited */
   const updateActiveEvent = (eventId: string) => {
-    const selectedEvent = allEvents.find((event) => event.eventId === eventId);
+    const selectedEvent = allEvents.find((ep) => ep.eventId === eventId);
     if (selectedEvent) {
       setCurrentPage("EventEdit");
       setActiveEvent(selectedEvent);
@@ -100,7 +98,7 @@ function App() {
   /** Change the recruitment request that is currently being edited */
   const updateActiveRecruitmentRequest = (requestId: string) => {
     const selectedRecruitmentRequest = allRecruitmentRequests.find(
-      (fr) => fr.requestId === requestId
+      (rr) => rr.requestId === requestId
     );
 
     if (selectedRecruitmentRequest) {
@@ -123,7 +121,7 @@ function App() {
   /** Handle the logic and call the constructor and update local state when a new event is created */
   const handleNewEvent = (
     clientName: string,
-    status: EventStatus,
+    status: string,
     eventType: string,
     startDate: Date,
     endDate: Date,
@@ -146,7 +144,7 @@ function App() {
   /** Handle the logic for calling methods to update the event currently being edited */
   const handleUpdateEvent = (
     clientName: string,
-    status: EventStatus,
+    status: string,
     eventType: string,
     startDate: Date,
     endDate: Date,
@@ -155,19 +153,14 @@ function App() {
     financialComment: string
   ) => {
     if (!activeEvent) return;
-    if (activeEvent.clientName !== clientName)
-      activeEvent.setClientName(clientName);
-    if (activeEvent.status !== status) activeEvent.setStatus(status);
-    if (activeEvent.eventType !== eventType)
-      activeEvent.setEventType(eventType);
-    if (activeEvent.startDate !== startDate)
-      activeEvent.setStartDate(startDate);
-    if (activeEvent.endDate !== endDate) activeEvent.setEndDate(endDate);
-    if (activeEvent.attendees !== attendees)
-      activeEvent.setAttendees(attendees);
-    if (activeEvent.budget !== budget) activeEvent.setBudget(budget);
-    if (activeEvent.comments !== financialComment)
-      activeEvent.setComments(financialComment);
+    activeEvent.setClientName(clientName);
+    activeEvent.setStatus(status);
+    activeEvent.setEventType(eventType);
+    activeEvent.setStartDate(startDate);
+    activeEvent.setEndDate(endDate);
+    activeEvent.setAttendees(attendees);
+    activeEvent.setBudget(budget);
+    activeEvent.setComments(financialComment);
 
     setActiveEvent(null);
     setCurrentPage("EventDisplay");
@@ -175,11 +168,11 @@ function App() {
 
   /** Handle the logic and call the constructor and update local state when a new financial request is created */
   const handleNewFinancialRequest = (
-    requestingDept: Department | "",
+    requestingDept: string,
     eventId: string,
     requiredAmount: number,
     reason: string,
-    status: RequestStatus
+    status: string
   ) => {
     const newFinancialRequest = new FinancialRequest(
       requestingDept,
@@ -196,18 +189,19 @@ function App() {
 
   /** Handle the logic for calling methods to update the financial request currently being edited */
   const handleUpdateFinancialRequest = (
-    requestingDept: Department | "",
+    requestingDept: string,
     eventId: string,
     requiredAmount: number,
     reason: string,
-    status: RequestStatus
+    status: string
   ) => {
     if (!activeFinancialRequest) return;
-    requestingDept && activeFinancialRequest.setRequestingDept(requestingDept);
-    eventId && activeFinancialRequest.setEventId(eventId);
-    requiredAmount && activeFinancialRequest.setRequiredAmount(requiredAmount);
-    reason && activeFinancialRequest.setReason(reason);
-    status && activeFinancialRequest.setStatus(status);
+
+    activeFinancialRequest.setRequestingDept(requestingDept);
+    activeFinancialRequest.setEventId(eventId);
+    activeFinancialRequest.setRequiredAmount(requiredAmount);
+    activeFinancialRequest.setReason(reason);
+    activeFinancialRequest.setStatus(status);
 
     setActiveFinancialRequest(null);
     setCurrentPage("FinancialRequestDisplay");
@@ -215,11 +209,11 @@ function App() {
 
   /** Handle the logic and call the constructor and update local state when a new recruitment request is created */
   const handleNewRecruitmentRequest = (
-    requestingDept: Department | "",
+    requestingDept: string,
     eventId: string,
     jobTitle: string,
     jobDescript: string,
-    status: RequestStatus
+    status: string
   ) => {
     const newRecruitmentRequest = new RecruitmentRequest(
       requestingDept,
@@ -239,19 +233,19 @@ function App() {
 
   /** Handle the logic for calling methods to update the recruitment request currently being edited */
   const handleUpdateRecruitmentRequest = (
-    requestingDept: Department | "",
+    requestingDept: string,
     eventId: string,
     jobTitle: string,
     jobDescript: string,
-    status: RequestStatus
+    status: string
   ) => {
     if (!activeRecruitmentRequest) return;
-    requestingDept &&
-      activeRecruitmentRequest.setRequestingDept(requestingDept);
-    eventId && activeRecruitmentRequest.setEventId(eventId);
-    jobTitle && activeRecruitmentRequest.setJobTitle(jobTitle);
-    jobDescript && activeRecruitmentRequest.setJobDescript(jobDescript);
-    status && activeRecruitmentRequest.setStatus(status);
+
+    activeRecruitmentRequest.setRequestingDept(requestingDept);
+    activeRecruitmentRequest.setEventId(eventId);
+    activeRecruitmentRequest.setJobTitle(jobTitle);
+    activeRecruitmentRequest.setJobDescript(jobDescript);
+    activeRecruitmentRequest.setStatus(status);
 
     setActiveRecruitmentRequest(null);
     setCurrentPage("RecruitmentRequestDisplay");
@@ -259,11 +253,11 @@ function App() {
 
   /** Handle the logic and call the constructor and update local state when a new department task is created */
   const handleNewDepartmentTask = (
-    subteam: Subteam,
+    subteam: string,
     eventId: string,
     description: string,
     assignee: string,
-    priority: Priority,
+    priority: string,
     plan: string,
     financialComment: string
   ) => {
@@ -284,23 +278,23 @@ function App() {
 
   /** Handle the logic for calling methods to update the department task currently being edited */
   const handleUpdateDepartmentTask = (
-    subteam: Subteam,
+    subteam: string,
     eventId: string,
     description: string,
     assignee: string,
-    priority: Priority,
+    priority: string,
     plan: string,
     financialComment: string
   ) => {
     if (!activeDepartmentTasks) return;
-    subteam && activeDepartmentTasks.setSubteam(subteam);
-    eventId && activeDepartmentTasks.setEventId(eventId);
-    description && activeDepartmentTasks.setDescription(description);
-    assignee && activeDepartmentTasks.setAssignee(assignee);
-    priority && activeDepartmentTasks.setPriority(priority);
-    plan && activeDepartmentTasks.setPlan(plan);
-    financialComment &&
-      activeDepartmentTasks.setFinancialComment(financialComment);
+
+    activeDepartmentTasks.setSubteam(subteam);
+    activeDepartmentTasks.setEventId(eventId);
+    activeDepartmentTasks.setDescription(description);
+    activeDepartmentTasks.setAssignee(assignee);
+    activeDepartmentTasks.setPriority(priority);
+    activeDepartmentTasks.setPlan(plan);
+    activeDepartmentTasks.setFinancialComment(financialComment);
 
     setActiveDepartmentTasks(null);
 
@@ -446,6 +440,37 @@ function App() {
     });
     setAllDepartmentTasks(depTasks);
   }, []);
+
+  const getAssignableTeamMembers = () => {
+    if (!currentUser) return [];
+    return employees.filter((employee) => {
+      if (!employee.isInSubteamAndNotManager()) return false;
+      if (currentUser.isInProductionTeam()) {
+        return employee.isInProductionTeam();
+      } else if (currentUser.isInServicesTeam()) {
+        return employee.isInServicesTeam();
+      }
+      return false;
+    });
+  };
+
+  const getTasksOfDepartment = () => {
+    if (!currentUser) return [];
+    return allDepartmentTasks.filter((task) => {
+      if (currentUser.role === "Production Manager") {
+        return isOfTypeProductionSubteam(task.subteam);
+      } else if (currentUser.role === "Service Manager") {
+        return isOfTypeServiceSubteam(task.subteam);
+      } else return false;
+    });
+  };
+
+  const getCurrentUsersTasks = () => {
+    if (!currentUser) return [];
+    return allDepartmentTasks.filter(
+      (task) => task.assignee === currentUser.name
+    );
+  };
 
   return (
     <div className="App">
@@ -619,15 +644,7 @@ function App() {
               handleNewDepartmentTask={handleNewDepartmentTask}
               handleUpdateDepartmentTask={handleUpdateDepartmentTask}
               handleOnBack={handleOnBack}
-              potentialAssignees={employees.filter((employee) => {
-                if (!employee.isInSubteamAndNotManager()) return false;
-                if (currentUser.isInProductionTeam()) {
-                  return employee.isInProductionTeam();
-                } else if (currentUser.isInServicesTeam()) {
-                  return employee.isInServicesTeam();
-                }
-                return false;
-              })}
+              potentialAssignees={getAssignableTeamMembers()}
             />
           )}
 
@@ -635,13 +652,7 @@ function App() {
             <DepartmentTasksDisplay
               isOnlyUserTasks={false}
               updateDepartmentTask={updateActiveDepartmentTask}
-              departmentTasks={allDepartmentTasks.filter((task) => {
-                if (currentUser.role === "Production Manager") {
-                  return isOfTypeProductionSubteam(task.subteam);
-                } else if (currentUser.role === "Service Manager") {
-                  return isOfTypeServiceSubteam(task.subteam);
-                } else return false;
-              })}
+              departmentTasks={getTasksOfDepartment()}
               handleOnBack={handleOnBack}
             />
           )}
@@ -650,9 +661,7 @@ function App() {
             <DepartmentTasksDisplay
               isOnlyUserTasks={true}
               updateDepartmentTask={updateActiveDepartmentTask}
-              departmentTasks={allDepartmentTasks.filter(
-                (task) => task.assignee === currentUser.name
-              )}
+              departmentTasks={getCurrentUsersTasks()}
               handleOnBack={handleOnBack}
             />
           )}

@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { EventStatus } from "../types/eventStatus";
+import { EventStatus, isOfTypeEventStatus } from "../types/eventStatus";
 class EventPlan {
   eventId: string = v4();
   status: EventStatus = "Pending";
@@ -14,7 +14,7 @@ class EventPlan {
 
   constructor(
     clientName?: string,
-    status?: EventStatus,
+    status?: string,
     startDate?: Date,
     endDate?: Date,
     eventType?: string,
@@ -36,19 +36,23 @@ class EventPlan {
   }
 
   setEventId(eventId: string) {
-    this.eventId = eventId;
+    if (eventId !== this.eventId) this.eventId = eventId;
   }
 
-  setStatus(status: EventStatus) {
-    this.status = status;
+  setStatus(status: string) {
+    if (status !== this.clientName) {
+      this.status = isOfTypeEventStatus(status) ? status : "Pending";
+    }
   }
 
   setClientName(clientName: string) {
-    this.clientName = clientName;
+    if (clientName !== this.clientName) {
+      this.clientName = clientName;
+    }
   }
 
   setEventType(eventType: string) {
-    this.eventType = eventType;
+    if (eventType !== this.eventType) this.eventType = eventType;
   }
 
   setStartDate(startDate: Date) {
@@ -56,18 +60,19 @@ class EventPlan {
     TODAYS_DATE.setHours(0, 0, 0, 0);
     if (startDate.getTime() < TODAYS_DATE.getTime())
       throw new Error("The start date can not be before todays date.");
-    this.startDate = startDate;
+
+    if (startDate !== this.startDate) this.startDate = startDate;
   }
 
   setEndDate(endDate: Date) {
     if (endDate.getTime() < this.startDate.getTime())
       throw new Error("The end date can not be before the start date.");
-    this.endDate = endDate;
+    if (endDate !== this.endDate) this.endDate = endDate;
   }
 
   setAttendees(attendees: number) {
     if (attendees < 1) throw new Error("There must be at least one attendee.");
-    this.attendees = attendees;
+    if (attendees !== this.attendees) this.attendees = attendees;
   }
 
   setBudget(budget: number) {
@@ -75,11 +80,11 @@ class EventPlan {
       throw new Error(
         "There must be at least some budget allocated to the event."
       );
-    this.budget = budget;
+    if (budget !== this.budget) this.budget = budget;
   }
 
   setComments(comments: string) {
-    this.comments = comments;
+    if (comments !== this.comments) this.comments = comments;
   }
 
   convertToJson() {

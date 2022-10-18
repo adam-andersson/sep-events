@@ -1,52 +1,26 @@
-import { v4 } from "uuid";
-import { Department, isOfTypeDepartment } from "../types/departments";
-import { RequestStatus } from "../types/requestStatus";
-class RecruitmentRequest {
-  requestId: string = v4();
-  requestingDept: Department = "Administration";
-  eventId: string = "Unspecified";
+import SepRequest from "./sepRequest";
+class RecruitmentRequest extends SepRequest {
   jobTitle: string = "Unspecified";
   jobDescript: string = "Unspecified";
-  status: RequestStatus = "Pending";
 
   constructor(
     requestingDept?: string,
     eventId?: string,
     jobTitle?: string,
     jobDescript?: string,
-    status?: RequestStatus
+    status?: string
   ) {
-    requestingDept &&
-      isOfTypeDepartment(requestingDept) &&
-      this.setRequestingDept(requestingDept);
-    eventId && this.setEventId(eventId);
+    super(requestingDept, eventId, status);
     jobTitle && this.setJobTitle(jobTitle);
     jobDescript && this.setJobDescript(jobDescript);
-    status && this.setStatus(status);
-  }
-
-  setRequestingDept(requestingDept: Department) {
-    this.requestingDept = requestingDept;
-  }
-
-  setEventId(eventId: string) {
-    this.eventId = eventId;
   }
 
   setJobTitle(jobTitle: string) {
-    this.jobTitle = jobTitle;
+    if (jobTitle !== this.jobTitle) this.jobTitle = jobTitle;
   }
 
   setJobDescript(jobDescript: string) {
-    this.jobDescript = jobDescript;
-  }
-
-  setStatus(status: RequestStatus) {
-    this.status = status;
-  }
-
-  convertToJson() {
-    return JSON.stringify(this);
+    if (jobDescript !== this.jobDescript) this.jobDescript = jobDescript;
   }
 }
 

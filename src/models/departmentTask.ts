@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
-import { Priority } from "../types/priorities";
-import { Subteam } from "../types/subteam";
+import { isOfTypePriority, Priority } from "../types/priorities";
+import { isOfTypeSubteam, Subteam } from "../types/subteam";
 
 class DepartmentTask {
   taskId: string = v4();
@@ -14,11 +14,11 @@ class DepartmentTask {
   financialComment: string = "";
 
   constructor(
-    subteam?: Subteam,
+    subteam?: string,
     eventId?: string,
     description?: string,
     assignee?: string,
-    priority?: Priority,
+    priority?: string,
     plan?: string,
     financialComment?: string
   ) {
@@ -31,32 +31,37 @@ class DepartmentTask {
     financialComment && this.setFinancialComment(financialComment);
   }
 
-  setSubteam(subteam: Subteam) {
-    this.subteam = subteam;
+  setSubteam(subteam: string) {
+    if (isOfTypeSubteam(subteam)) {
+      if (subteam !== this.subteam) this.subteam = subteam;
+    }
   }
 
   setEventId(eventId: string) {
-    this.eventId = eventId;
+    if (eventId !== this.eventId) this.eventId = eventId;
   }
 
   setDescription(description: string) {
-    this.description = description;
+    if (description !== this.description) this.description = description;
   }
 
   setAssignee(assignee: string) {
-    this.assignee = assignee;
+    if (assignee !== this.assignee) this.assignee = assignee;
   }
 
-  setPriority(priority: Priority) {
-    this.priority = priority;
+  setPriority(priority: string) {
+    if (isOfTypePriority(priority)) {
+      if (priority !== this.priority) this.priority = priority;
+    }
   }
 
   setPlan(plan: string) {
-    this.plan = plan;
+    if (plan !== this.plan) this.plan = plan;
   }
 
   setFinancialComment(financialComment: string) {
-    this.financialComment = financialComment;
+    if (financialComment !== this.financialComment)
+      this.financialComment = financialComment;
   }
 
   convertToJson() {

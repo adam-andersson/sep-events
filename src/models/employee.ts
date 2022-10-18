@@ -1,21 +1,20 @@
-import { EmployeeRole } from "../types/employeeRole";
+import { EmployeeRole, isOfTypeEmployeeRole } from "../types/employeeRole";
 
 class Employee {
   name: string;
   email: string;
   password: string;
-  role: EmployeeRole;
+  role: EmployeeRole = "Unknown Role";
 
-  constructor(
-    name: string,
-    email: string,
-    password: string,
-    role: EmployeeRole
-  ) {
+  constructor(name: string, email: string, password: string, role: string) {
     this.name = name;
     this.email = email;
     this.password = password;
-    this.role = role;
+    this.setEmployeeRole(role);
+  }
+
+  setEmployeeRole(role: string) {
+    if (isOfTypeEmployeeRole(role)) this.role = role;
   }
 
   canViewEvent() {
