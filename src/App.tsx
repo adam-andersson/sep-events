@@ -570,6 +570,7 @@ function App() {
               handleUpdateDepartmentTask={handleUpdateDepartmentTask}
               handleOnBack={handleOnBack}
               potentialAssignees={employees.filter((employee) => {
+                if (!employee.isInSubteamAndNotManager()) return false;
                 if (currentUser.isInProductionTeam()) {
                   return employee.isInProductionTeam();
                 } else if (currentUser.isInServicesTeam()) {
