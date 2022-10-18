@@ -4,7 +4,7 @@ const TODAYS_DATE = new Date();
 const TOMORROW_DATE = new Date(TODAYS_DATE);
 TOMORROW_DATE.setDate(TOMORROW_DATE.getDate() + 1);
 
-describe("Event Plan", () => {
+describe("Event Plan Class", () => {
   let testEvent: EventPlan;
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import FinancialRequest from "../models/financialRequest";
 
-describe("Financial Request", () => {
+describe("Financial Request Class", () => {
   let testFinRequest: FinancialRequest;
 
   beforeEach(() => {
