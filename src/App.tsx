@@ -1,39 +1,34 @@
-import Employee from "./models/employee";
-import Login from "./components/Login";
-import jsonEmployees from "./database/employees.json";
-import jsonEventPlans from "./database/events.json";
-import jsonFinancialRequests from "./database/financial_requests.json";
-import jsonRecruitmentRequests from "./database/recruitment_requests.json";
-import jsonDepartmentTasks from "./database/department_tasks.json";
 import React, { useState } from "react";
-import EventPlanning from "./components/EventPlanning";
-import EventPlan from "./models/event";
-import EventDisplay from "./components/EventDisplay";
-import { EmployeeRole, isOfTypeEmployeeRole } from "./types/employeeRole";
-import { EventStatus, isOfTypeEventStatus } from "./types/eventStatus";
+/** Import types */
 import { WebsitePage } from "./types/websitePages";
-import FinancialRequestEdit from "./components/FinancialRequestEdit";
-import FinancialRequest from "./models/financialRequest";
-import { isOfTypeRequestStatus, RequestStatus } from "./types/requestStatus";
-import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
-import DepartmentTasks from "./components/DepartmentTasks";
-import { isOfTypePriority } from "./types/priorities";
-import DepartmentTask from "./models/departmentTask";
-import DepartmentTasksDisplay from "./components/DepartmentTasksDisplay";
 import {
   isOfTypeProductionSubteam,
   isOfTypeServiceSubteam,
-  isOfTypeSubteam,
 } from "./types/subteam";
+/** Import classes */
+import Employee from "./models/employee";
+import EventPlan from "./models/event";
+import FinancialRequest from "./models/financialRequest";
 import RecruitmentRequest from "./models/recruitmentRequest";
+import DepartmentTask from "./models/departmentTask";
+/** Import components */
+import Login from "./components/Login";
+import EventPlanning from "./components/EventPlanning";
+import EventDisplay from "./components/EventDisplay";
+import FinancialRequestEdit from "./components/FinancialRequestEdit";
+import FinancialRequestDisplay from "./components/FinancialRequestDisplay";
 import RecruitmentRequestEdit from "./components/RecruitmentRequestEdit";
 import RecruitmentRequestDisplay from "./components/RecruitmentRequestDisplay";
+import DepartmentTasks from "./components/DepartmentTasks";
+import DepartmentTasksDisplay from "./components/DepartmentTasksDisplay";
+/** Import helpers */
+import loadDatabases from "./helpers/databaseLoader";
 
 function App() {
+  const [currentPage, setCurrentPage] = useState<WebsitePage>("Login");
+
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [currentUser, setCurrentUser] = useState<Employee | null>(null);
-
-  const [currentPage, setCurrentPage] = useState<WebsitePage>("Login");
 
   const [allEvents, setAllEvents] = useState<EventPlan[]>([]);
   const [activeEvent, setActiveEvent] = useState<EventPlan | null>(null);
@@ -307,138 +302,15 @@ function App() {
       : setCurrentPage("UserTasksDisplay");
   };
 
-  /** Read Employees from 'database' and create class instances from them */
+  /** Read from 'database' and create class instances from them that is stored in component states */
   React.useEffect(() => {
-    const allEmployees: Employee[] = [];
-    jsonEmployees.forEach((employee) => {
-      const employeeRole: EmployeeRole = isOfTypeEmployeeRole(employee.role)
-        ? employee.role
-        : "Unknown Role";
-
-      allEmployees.push(
-        new Employee(
-          employee.name.toLowerCase(),
-          employee.email,
-          employee.password,
-          employeeRole
-        )
-      );
-    });
-    setEmployees(allEmployees);
-  }, []);
-
-  /** Read Events from 'database' and create class instances from them */
-  React.useEffect(() => {
-    const events: EventPlan[] = [];
-    jsonEventPlans.forEach((event) => {
-      const parsedEventStatus: EventStatus = isOfTypeEventStatus(event.status)
-        ? event.status
-        : "Pending";
-
-      /** Some date conversion to keep this application away from throwing errors when the database dates gets earlier than todays date */
-      const parsedStartDate = new Date(event.startDate);
-      const parsedEndDate = new Date(event.endDate);
-      const currentDate = new Date();
-      if (parsedStartDate.getTime() <= currentDate.getTime()) {
-        parsedStartDate.setMonth(currentDate.getMonth() + 1);
-      }
-
-      if (parsedEndDate.getTime() <= parsedStartDate.getTime()) {
-        parsedEndDate.setMonth(parsedStartDate.getMonth());
-        parsedEndDate.setDate(parsedStartDate.getDate());
-      }
-
-      events.push(
-        new EventPlan(
-          event.clientName,
-          parsedEventStatus,
-          parsedStartDate,
-          parsedEndDate,
-          event.eventType,
-          event.attendees,
-          event.budget,
-          event.comments,
-          event.eventId
-        )
-      );
-    });
-    setAllEvents(events);
-  }, []);
-
-  /** Read Financial Requests from 'database' and create class instances from them */
-  React.useEffect(() => {
-    const finReqs: FinancialRequest[] = [];
-    jsonFinancialRequests.forEach((fr) => {
-      const parsedRequestStatus: RequestStatus = isOfTypeRequestStatus(
-        fr.status
-      )
-        ? fr.status
-        : "Pending";
-      finReqs.push(
-        new FinancialRequest(
-          fr.requestingDept,
-          fr.eventId,
-          fr.requiredAmount,
-          fr.reason,
-          parsedRequestStatus
-        )
-      );
-    });
-    setAllFinancialRequests(finReqs);
-  }, []);
-
-  /** Read Recruitment Requests from 'database' and create class instances from them */
-  React.useEffect(() => {
-    const recReqs: RecruitmentRequest[] = [];
-    jsonRecruitmentRequests.forEach((rr) => {
-      const parsedRequestStatus: RequestStatus = isOfTypeRequestStatus(
-        rr.status
-      )
-        ? rr.status
-        : "Pending";
-      recReqs.push(
-        new RecruitmentRequest(
-          rr.requestingDept,
-          rr.eventId,
-          rr.jobTitle,
-          rr.jobDescript,
-          parsedRequestStatus
-        )
-      );
-    });
-    setAllRecruitmentRequests(recReqs);
-  }, []);
-
-  /** Read department tasks from 'database' and create class instances from them */
-  React.useEffect(() => {
-    const depTasks: DepartmentTask[] = [];
-    jsonDepartmentTasks.forEach((dt) => {
-      const {
-        subteam,
-        assignee,
-        description,
-        eventId,
-        financialComment,
-        plan,
-        priority,
-      } = dt;
-
-      const parsedSubteam = isOfTypeSubteam(subteam) ? subteam : "Decorations";
-      const parsedPriority = isOfTypePriority(priority) ? priority : "Medium";
-
-      depTasks.push(
-        new DepartmentTask(
-          parsedSubteam,
-          eventId,
-          description,
-          assignee,
-          parsedPriority,
-          plan,
-          financialComment
-        )
-      );
-    });
-    setAllDepartmentTasks(depTasks);
+    loadDatabases(
+      setEmployees,
+      setAllEvents,
+      setAllFinancialRequests,
+      setAllRecruitmentRequests,
+      setAllDepartmentTasks
+    );
   }, []);
 
   const getAssignableTeamMembers = () => {
