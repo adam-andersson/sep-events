@@ -34,27 +34,62 @@ const Login: React.FC<{
   };
 
   return (
-    <div>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        marginTop: "50px",
+        marginBottom: "50px",
+      }}
+    >
       <div>
-        <h2>Please enter your login details.</h2>
-      </div>
-      <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
-        <label>Name:</label>
-        <input type="text" value={name} onChange={handleSetName}></input>
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={handleSetPassword}
-        ></input>
+        <h2 style={{ marginTop: "0" }}>Please enter your login details.</h2>
 
-        <input type="submit"></input>
-      </form>
-      {invalidUserCred && (
-        <div style={{ margin: "10px" }}>
-          The credentials that you have entered does not exist in the database.
-        </div>
-      )}
+        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
+          <label>Name:</label>
+          <input type="text" value={name} onChange={handleSetName}></input>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={handleSetPassword}
+          ></input>
+
+          <input type="submit"></input>
+        </form>
+
+        {invalidUserCred && (
+          <div style={{ margin: "10px" }}>
+            The credentials that you have entered does not exist in the
+            database. <br />
+            <i>Hint: name: $name and password: 1234</i>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h3 style={{ marginBottom: "0" }}>Available users:</h3>
+        <table id="employees">
+          <thead>
+            <td>
+              <b>Name</b>
+            </td>
+            <td>
+              <b>Role</b>
+            </td>
+          </thead>
+          <tbody>
+            {employees.map((employee, i) => (
+              <tr key={i}>
+                <td>{employee.name}</td>
+                <td>{employee.role}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

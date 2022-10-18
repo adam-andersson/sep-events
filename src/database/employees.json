@@ -1,45 +1,69 @@
 [
     {
-        "name": "cs",
-        "email": "cs@sep.com",
-        "password": "1234",
-        "role": "Customer Service Officer"
-    },
-    {
-        "name": "scs",
-        "email": "scs@sep.com",
-        "password": "1234",
-        "role": "Senior Customer Service Officer"
-    },
-    {
-        "name": "fm",
-        "email": "fm@sep.com",
-        "password": "1234",
-        "role": "Financial Manager"
-    },
-    {
-        "name": "am",
-        "email": "am@sep.com",
+        "name": "mike",
+        "email": "mike@sep.com",
         "password": "1234",
         "role": "Administration Manager"
     },
     {
-        "name": "sm",
-        "email": "sm@sep.com",
+        "name": "janet",
+        "email": "janet@sep.com",
+        "password": "1234",
+        "role": "Senior Customer Service Officer"
+    },
+    {
+        "name": "sarah",
+        "email": "sarah@sep.com",
+        "password": "1234",
+        "role": "Customer Service Officer"
+    },
+    {
+        "name": "sam",
+        "email": "sam@sep.com",
+        "password": "1234",
+        "role": "Customer Service Officer"
+    },
+    {
+        "name": "judy",
+        "email": "judy@sep.com",
+        "password": "1234",
+        "role": "Customer Service Officer"
+    },
+    {
+        "name": "carine",
+        "email": "carine@sep.com",
+        "password": "1234",
+        "role": "Customer Service Officer"
+    },
+    {
+        "name": "alice",
+        "email": "alice@sep.com",
+        "password": "1234",
+        "role": "Financial Manager"
+    },
+    {
+        "name": "simon",
+        "email": "simon@sep.com",
+        "password": "1234",
+        "role": "Human Resources"
+    },
+    {
+        "name": "maria",
+        "email": "maria@sep.com",
+        "password": "1234",
+        "role": "Human Resources"
+    },
+    {
+        "name": "natalie",
+        "email": "natalie@sep.com",
         "password": "1234",
         "role": "Service Manager"
     },
     {
-        "name": "pm",
-        "email": "pm@sep.com",
+        "name": "jack",
+        "email": "jack@sep.com",
         "password": "1234",
         "role": "Production Manager"
-    },
-    {
-        "name": "hr",
-        "email": "hr@sep.com",
-        "password": "1234",
-        "role": "Human Resources"
     },
     {
         "name": "magy",

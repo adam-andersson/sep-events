@@ -18,3 +18,24 @@ code {
   flex-direction: column;
   align-items: center;
 }
+
+#employees {
+  width: 100%;
+}
+
+#employees td,
+#employees thead {
+  border: 1px solid #ddd;
+  padding: 3px 8px 3px 8px;
+  font-size: small;
+}
+
+#employees tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#employees thead {
+  text-align: left;
+  background-color: lightblue;
+  color: white;
+}
