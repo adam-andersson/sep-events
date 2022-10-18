@@ -1,6 +1,6 @@
 export type WebsitePage =
   | "Login"
-  | "Homepage"
+  | "Dashboard"
   | "EventDisplay"
   | "EventEdit"
   | "FinancialRequestDisplay"
